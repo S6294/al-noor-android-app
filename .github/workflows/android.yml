@@ -1,5 +1,4 @@
-
-name: Build Al Noor Android AAB
+name: Build Al Noor Android AAB and APK
 
 on:
   workflow_dispatch:
@@ -163,7 +162,7 @@ jobs:
           }
           EOF
 
-      - name: Build signed Release AAB
+      - name: Build signed Release AAB and APK
         working-directory: android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -171,11 +170,18 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           chmod +x gradlew
-          ./gradlew bundleRelease
+          ./gradlew bundleRelease assembleRelease
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: Al-Noor-Android-AAB
           path: android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Al-Noor-Android-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
