@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payment | Al Noor Islamic Academy</title>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #071c16;
+      color: white;
+      min-height: 100vh;
+      padding: 25px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #0d2a22;
+      padding: 30px;
+      border-radius: 18px;
+      border: 1px solid #d4af37;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 25px;
+    }
+
+    .plan {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .plan-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 32px;
+      color: #d4af37;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #071c16;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #d4af37;
+      color: #071c16;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 18px;
+      color: #d4af37;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Al Noor Islamic Academy</h1>
+
+  <div class="plan">
+    <div class="plan-name" id="planName">Course</div>
+
+    <div class="price">
+      ₹<span id="planPrice">0</span>
+    </div>
+  </div>
+
+  <label>Full Name</label>
+  <input type="text" id="name" readonly>
+
+  <label>Email</label>
+  <input type="email" id="email" readonly>
+
+  <label>Mobile</label>
+  <input type="text" id="mobile" readonly>
+
+  <button id="payBtn">Pay Now</button>
+
+  <div id="message"></div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+  Timestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+// =========================
+// FIREBASE
+// =========================
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
+
+  authDomain:
+    "al-noor-islamic-academy.firebaseapp.com",
+
+  projectId:
+    "al-noor-islamic-academy",
+
+  storageBucket:
+    "al-noor-islamic-academy.firebasestorage.app",
+
+  messagingSenderId:
+    "571799539455",
+
+  appId:
+    "1:571799539455:web:d42728685908430296c6ca"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+// =========================
+// BACKEND
+// =========================
+
+const BACKEND_URL =
+"https://script.google.com/macros/s/AKfycbyCH2v1uORdSwK42KMe89uvawYaeX-QCynsvTuv2Auorcl31e9CG5SVXj9hYHnJduX6Nw/exec";
+
+
+// =========================
+// RAZORPAY TEST KEY
+// =========================
+
+// এখানে তোমার সম্পূর্ণ Test Key ID বসাও
+
+const RAZORPAY_KEY_ID =
+"rzp_live_TejWmbl3MZQfm2";
+
+
+// =========================
+// PLAN
+// =========================
+
+const params =
+new URLSearchParams(window.location.search);
+
+const course =
+params.get("course");
+
+const courseName =
+params.get("name");
+
+const coursePrice =
+params.get("price");
+
+
+document.getElementById("planName").textContent =
+courseName || "Course";
+
+document.getElementById("planPrice").textContent =
+coursePrice || "0";
+
+
+// =========================
+// USER
+// =========================
+
+let currentUser = null;
+
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+
+    window.location.href =
+    "login.html";
+
+    return;
+  }
+
+  currentUser = user;
+
+  document.getElementById("email").value =
+  user.email || "";
+
+
+  try {
+
+    const studentRef =
+    doc(db, "students", user.uid);
+
+    const studentSnap =
+    await getDoc(studentRef);
+
+
+    if (studentSnap.exists()) {
+
+      const data =
+      studentSnap.data();
+
+      document.getElementById("name").value =
+      data.name || user.displayName || "";
+
+      document.getElementById("mobile").value =
+      data.mobile || "";
+
+    } else {
+
+      document.getElementById("name").value =
+      user.displayName || "";
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+});
+
+
+// =========================
+// PAY NOW
+// =========================
+
+document.getElementById("payBtn")
+.addEventListener("click", () => {
+
+  const button =
+  document.getElementById("payBtn");
+
+  const message =
+  document.getElementById("message");
+
+
+  if (!currentUser) {
+
+    message.textContent =
+    "Please login first.";
+
+    return;
+  }
+
+
+  if (!course) {
+
+    message.textContent =
+    "Invalid course.";
+
+    return;
+  }
+
+
+  if (
+    !RAZORPAY_KEY_ID ||
+    RAZORPAY_KEY_ID ===
+    "YOUR_FULL_RAZORPAY_TEST_KEY_ID"
+  ) {
+
+    message.textContent =
+    "Please add your Razorpay Test Key ID.";
+
+    return;
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+  "Creating Order...";
+
+  message.textContent = "";
+
+
+  const callbackName =
+  "razorpayCallback_" +
+  Date.now();
+
+
+  window[callbackName] =
+  function(data) {
+
+
+    delete window[callbackName];
+
+
+    if (!data.success) {
+
+      message.textContent =
+      data.message ||
+      "Order creation failed.";
+
+      button.disabled = false;
+
+      button.textContent =
+      "Pay Now";
+
+      return;
+    }
+
+
+    // Display the product and price returned by the backend, not only URL parameters.
+    if (typeof data.price === "number") {
+      document.getElementById("planPrice").textContent = String(data.price);
+    }
+    if (data.course_name) {
+      document.getElementById("planName").textContent = data.course_name;
+    }
+
+    // =========================
+    // RAZORPAY CHECKOUT
+    // =========================
+
+    const options = {
+
+      key:
+      RAZORPAY_KEY_ID,
+
+      amount:
+      data.amount,
+
+      currency:
+      data.currency,
+
+      name:
+      "Al Noor Islamic Academy",
+
+      description:
+      data.course_name,
+
+      order_id:
+      data.order_id,
+
+
+      prefill: {
+
+        name:
+        document.getElementById("name").value,
+
+        email:
+        document.getElementById("email").value,
+
+        contact:
+        document.getElementById("mobile").value
+
+      },
+
+
+      theme: {
+
+        color:
+        "#d4af37"
+
+      },
+
+
+      handler:
+      function(response) {
+
+        console.log(
+          "Payment ID:",
+          response.razorpay_payment_id
+        );
+
+        console.log(
+          "Order ID:",
+          response.razorpay_order_id
+        );
+
+        console.log(
+          "Signature:",
+          response.razorpay_signature
+        );
+
+
+        message.textContent =
+        "Verifying payment...";
+
+        const verifyCallbackName =
+        "verifyCallback_" + Date.now();
+
+        let verificationFinished = false;
+        let verificationAttempts = 0;
+
+        function verifyPaymentWithJSONP() {
+
+          verificationAttempts++;
+
+          const callback =
+          verificationAttempts === 1
+            ? verifyCallbackName
+            : verifyCallbackName + "_retry";
+
+          window[callback] =
+          async function(verifyResult) {
+
+            verificationFinished = true;
+
+            delete window[callback];
+
+            if (!verifyResult.success) {
+
+              message.textContent =
+              verifyResult.message ||
+              "Payment verification failed.";
+
+              button.disabled = false;
+              button.textContent = "Pay Now";
+              return;
+            }
+
+            // Prevent activating a different course than the one in the verified Razorpay order.
+            if (verifyResult.course && verifyResult.course !== course) {
+              message.textContent = "The verified payment does not match this course. Please contact admin.";
+              button.disabled = false;
+              button.textContent = "Pay Now";
+              return;
+            }
+
+            try {
+
+              const studentRef =
+              doc(db, "students", currentUser.uid);
+
+              const courseField =
+              course === "tajweed"
+                ? "tajweedActive"
+                : "arabicLanguageActive";
+
+              const paymentField =
+              course === "tajweed"
+                ? "tajweedPaymentId"
+                : "arabicLanguagePaymentId";
+
+              const orderField =
+              course === "tajweed"
+                ? "tajweedOrderId"
+                : "arabicLanguageOrderId";
+
+              const purchaseField =
+              course === "tajweed"
+                ? "tajweedPurchasedAt"
+                : "arabicLanguagePurchasedAt";
+
+              const updateData = {
+                [courseField]: true,
+                [paymentField]: response.razorpay_payment_id,
+                [orderField]: response.razorpay_order_id,
+                [purchaseField]: serverTimestamp()
+              };
+
+              // Tajweed / Arabic: ₹299 = 30 days.
+              // Renewal adds 30 days to the existing active expiry.
+              if (course === "tajweed" || course === "arabic-language") {
+                const oldSnap = await getDoc(studentRef);
+                const oldData = oldSnap.exists() ? oldSnap.data() : {};
+                const now = new Date();
+
+                const expiryField =
+                  course === "tajweed" ? "tajweedExpiryAt" : "arabicExpiryAt";
+                const purchaseFieldName =
+                  course === "tajweed" ? "tajweedPurchasedAt" : "arabicLanguagePurchasedAt";
+
+                let expiryDate = null;
+
+                if (oldData[expiryField]) {
+                  const rawExpiry = oldData[expiryField];
+                  const oldExpiry = rawExpiry.toDate
+                    ? rawExpiry.toDate()
+                    : rawExpiry.seconds
+                      ? new Date(rawExpiry.seconds * 1000)
+                      : new Date(rawExpiry);
+
+                  if (!isNaN(oldExpiry.getTime()) && oldExpiry > now) {
+                    expiryDate = new Date(oldExpiry.getTime());
+                  }
+                }
+
+                if (!expiryDate && oldData[purchaseFieldName]) {
+                  const rawPurchase = oldData[purchaseFieldName];
+                  const oldPurchase = rawPurchase.toDate
+                    ? rawPurchase.toDate()
+                    : rawPurchase.seconds
+                      ? new Date(rawPurchase.seconds * 1000)
+                      : new Date(rawPurchase);
+
+                  if (!isNaN(oldPurchase.getTime())) {
+                    const legacyExpiry = new Date(
+                      oldPurchase.getTime() + 30 * 24 * 60 * 60 * 1000
+                    );
+
+                    if (legacyExpiry > now) {
+                      expiryDate = legacyExpiry;
+                    }
+                  }
+                }
+
+                if (!expiryDate) expiryDate = now;
+
+                expiryDate = new Date(
+                  expiryDate.getTime() + 30 * 24 * 60 * 60 * 1000
+                );
+
+                updateData[expiryField] = Timestamp.fromDate(expiryDate);
+              }
+
+              await setDoc(studentRef, updateData, { merge: true });
+
+              message.innerHTML =
+              "Payment completed successfully.<br>" +
+              courseName +
+              " access activated.";
+
+              button.textContent = "Course Activated";
+
+            } catch (error) {
+
+              console.error(error);
+
+              message.textContent =
+              "Payment verified, but course activation failed. Please contact admin.";
+
+              button.disabled = false;
+              button.textContent = "Pay Now";
+            }
+          };
+
+          const verifyScript =
+          document.createElement("script");
+
+          verifyScript.src =
+          BACKEND_URL +
+          "?action=verify" +
+          "&payment_id=" +
+          encodeURIComponent(response.razorpay_payment_id) +
+          "&order_id=" +
+          encodeURIComponent(response.razorpay_order_id) +
+          "&signature=" +
+          encodeURIComponent(response.razorpay_signature) +
+          "&course=" +
+          encodeURIComponent(course) +
+          "&callback=" +
+          encodeURIComponent(callback) +
+          "&cache=" +
+          Date.now();
+
+          verifyScript.onerror =
+          function() {
+
+            delete window[callback];
+
+            if (!verificationFinished &&
+                verificationAttempts < 2) {
+
+              message.textContent =
+              "Reconnecting to payment verification...";
+
+              setTimeout(
+                verifyPaymentWithJSONP,
+                1200
+              );
+
+              return;
+            }
+
+            message.textContent =
+            "Unable to connect to payment verification server. Please try again.";
+
+            button.disabled = false;
+            button.textContent = "Pay Now";
+          };
+
+          document.body.appendChild(verifyScript);
+        }
+
+        verifyPaymentWithJSONP();
+
+      },
+
+
+      modal: {
+
+        ondismiss:
+        function() {
+
+          button.disabled =
+          false;
+
+          button.textContent =
+          "Pay Now";
+
+          message.textContent =
+          "Payment window closed.";
+
+        }
+
+      }
+
+    };
+
+
+    const razorpay =
+    new Razorpay(options);
+
+    razorpay.open();
+
+  };
+
+
+  // =========================
+  // JSONP REQUEST
+  // =========================
+
+  const script =
+  document.createElement("script");
+
+
+  script.src =
+  BACKEND_URL +
+  "?course=" +
+  encodeURIComponent(course) +
+  "&callback=" +
+  encodeURIComponent(callbackName);
+
+
+  script.onerror =
+  function() {
+
+    delete window[callbackName];
+
+    message.textContent =
+    "Unable to connect to payment server.";
+
+    button.disabled =
+    false;
+
+    button.textContent =
+    "Pay Now";
+
+  };
+
+
+  document.body.appendChild(script);
+
+});
+
+</script>
+
+</body>
+</html>

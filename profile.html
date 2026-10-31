@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Profile | Al Noor Islamic Academy</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#071c16;
+    color:white;
+}
+
+/* Header */
+
+header{
+    background:#0b261e;
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #d4af37;
+}
+
+.logo{
+    color:#d4af37;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.profile-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#d4af37;
+    color:#071c16;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+/* Main */
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:30px 18px;
+}
+
+.title{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+}
+
+/* Profile */
+
+.profile-card{
+    background:#0b261e;
+    border:1px solid #31594d;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#d4af37;
+    color:#071c16;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:bold;
+    margin:0 auto 15px;
+}
+
+.student-name{
+    text-align:center;
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.student-role{
+    text-align:center;
+    color:#d4af37;
+    font-size:14px;
+}
+
+/* Details */
+
+.details{
+    margin-top:25px;
+}
+
+.detail{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #23463b;
+}
+
+.detail:last-child{
+    border-bottom:none;
+}
+
+.label{
+    color:#8fa69e;
+}
+
+.value{
+    text-align:right;
+    color:#fff;
+}
+
+/* Membership */
+
+.membership{
+    background:#0d3025;
+    border:1px solid #d4af37;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.membership h2{
+    color:#d4af37;
+    margin-bottom:10px;
+}
+
+.membership p{
+    color:#b9c9c3;
+    line-height:1.7;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:12px;
+    background:#d4af37;
+    color:#071c16;
+    padding:7px 12px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+/* Courses */
+
+.courses{
+    background:#0b261e;
+    border:1px solid #31594d;
+    border-radius:15px;
+    padding:20px;
+}
+
+.courses h2{
+    color:#d4af37;
+    margin-bottom:15px;
+}
+
+.course{
+    padding:12px 0;
+    border-bottom:1px solid #23463b;
+    color:#c8d5d0;
+}
+
+.course:last-child{
+    border-bottom:none;
+}
+
+/* Course Access Status */
+
+.course-status{
+    margin-top:6px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.course-status.active{
+    color:#d4af37;
+}
+
+.course-status.expired{
+    color:#e07a7a;
+}
+
+/* Buttons */
+
+
+
+.buttons{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    flex:1;
+    min-width:140px;
+    text-align:center;
+    padding:12px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.edit{
+    background:#d4af37;
+    color:#071c16;
+}
+
+.back{
+    border:1px solid #d4af37;
+    color:#d4af37;
+}
+
+/* Footer */
+
+footer{
+    text-align:center;
+    color:#718b82;
+    padding:30px 10px;
+    margin-top:20px;
+    border-top:1px solid #193b31;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        AL NOOR
+    </div>
+
+    <div class="profile-icon">
+        AN
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <h1 class="title">
+        My Profile
+    </h1>
+
+
+    <!-- Profile Card -->
+
+    <div class="profile-card">
+
+        <div class="avatar">
+            AN
+        </div>
+
+        <h2 class="student-name">
+            Student Name
+        </h2>
+
+        <p class="student-role">
+            Al Noor Student
+        </p>
+
+
+        <div class="details">
+
+            <div class="detail">
+                <span class="label">Full Name</span>
+                <span class="value">Student Name</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Email</span>
+                <span class="value">student@email.com</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Mobile</span>
+                <span class="value">+91 XXXXX XXXXX</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Student ID</span>
+                <span class="value">AN2026-001</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Courses -->
+
+    <div class="courses">
+
+        <h2>📚 My Courses</h2>
+
+        <div class="course">
+            <div>📖 Tajweed</div>
+            <div id="tajweedStatus" class="course-status">Checking...</div>
+        </div>
+
+        <div class="course">
+            <div>📗 Arabic Language</div>
+            <div id="arabicStatus" class="course-status">Checking...</div>
+        </div>
+
+    </div>
+
+
+    <!-- Buttons -->
+
+    <div class="buttons">
+
+        <button id="logoutBtn" class="btn edit" type="button">
+            🚪 Logout
+        </button>
+
+        <a href="dashboard.html" class="btn back">
+            ← Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    © 2026 Al Noor Islamic Academy
+
+</footer>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
+    authDomain: "al-noor-islamic-academy.firebaseapp.com",
+    projectId: "al-noor-islamic-academy",
+    storageBucket: "al-noor-islamic-academy.firebasestorage.app",
+    messagingSenderId: "571799539455",
+    appId: "1:571799539455:web:d42728685908430296c6ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const studentNameEl = document.querySelector(".student-name");
+const avatarEls = document.querySelectorAll(".avatar, .profile-icon");
+const detailValues = document.querySelectorAll(".detail .value");
+
+const tajweedStatus = document.getElementById("tajweedStatus");
+const arabicStatus = document.getElementById("arabicStatus");
+const logoutBtn = document.getElementById("logoutBtn");
+
+
+function getDateValue(value){
+    if (!value) return null;
+
+    if (typeof value.toDate === "function") {
+        return value.toDate();
+    }
+
+    if (value.seconds) {
+        return new Date(value.seconds * 1000);
+    }
+
+    const date = new Date(value);
+    return isNaN(date.getTime()) ? null : date;
+}
+
+
+function getExpiry(data, expiryField, purchaseField){
+    let expiry = getDateValue(data[expiryField]);
+
+    if (!expiry) {
+        const purchased = getDateValue(data[purchaseField]);
+
+        if (purchased) {
+            expiry = new Date(
+                purchased.getTime() + 30 * 24 * 60 * 60 * 1000
+            );
+        }
+    }
+
+    return expiry;
+}
+
+
+function showCourseStatus(element, active, expiry){
+    element.className = "course-status";
+
+    if (active && expiry && expiry.getTime() > Date.now()) {
+        element.classList.add("active");
+
+        element.textContent =
+            "✓ Active • Expires " +
+            expiry.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+
+    } else {
+        element.classList.add("expired");
+        element.textContent = "🔒 Expired";
+    }
+}
+
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const studentRef = doc(db, "students", user.uid);
+        const snap = await getDoc(studentRef);
+
+        const data = snap.exists() ? snap.data() : {};
+
+        const name =
+            data.name ||
+            data.fullName ||
+            data.displayName ||
+            user.displayName ||
+            "Student";
+
+        const cleanName = String(name).trim();
+
+        studentNameEl.textContent = cleanName;
+
+        const initials = cleanName
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(word => word.charAt(0).toUpperCase())
+            .join("");
+
+        avatarEls.forEach(el => {
+            el.textContent = initials || "ST";
+        });
+
+        detailValues[0].textContent =
+            data.name || data.fullName || cleanName;
+
+        detailValues[1].textContent =
+            user.email || data.email || "Not available";
+
+        detailValues[2].textContent =
+            data.mobile || "Not available";
+
+        detailValues[3].textContent =
+            data.studentId || data.studentID || user.uid;
+
+        // Tajweed
+        const tajweedExpiry =
+            getExpiry(data, "tajweedExpiryAt", "tajweedPurchasedAt");
+
+        const tajweedActive =
+            data.tajweedActive === true &&
+            (!tajweedExpiry || tajweedExpiry.getTime() > Date.now());
+
+        showCourseStatus(
+            tajweedStatus,
+            tajweedActive,
+            tajweedExpiry
+        );
+
+        // Arabic Language
+        const arabicExpiry =
+            getExpiry(
+                data,
+                "arabicExpiryAt",
+                "arabicLanguagePurchasedAt"
+            );
+
+        const arabicActive =
+            data.arabicLanguageActive === true &&
+            (!arabicExpiry || arabicExpiry.getTime() > Date.now());
+
+        showCourseStatus(
+            arabicStatus,
+            arabicActive,
+            arabicExpiry
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        tajweedStatus.textContent = "Unable to check status.";
+        arabicStatus.textContent = "Unable to check status.";
+    }
+
+});
+
+
+logoutBtn.addEventListener("click", async () => {
+
+    logoutBtn.disabled = true;
+    logoutBtn.textContent = "Logging out...";
+
+    try {
+
+        await signOut(auth);
+        window.location.href = "login.html";
+
+    } catch (error) {
+
+        console.error(error);
+
+        logoutBtn.disabled = false;
+        logoutBtn.textContent = "🚪 Logout";
+
+        alert("Logout failed. Please try again.");
+    }
+
+});
+
+</script>
+
+</body>
+</html>

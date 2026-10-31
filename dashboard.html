@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Al Noor Islamic Academy</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #071a17;
+
+            color: white;
+
+            min-height: 100vh;
+        }
+
+
+        /* HEADER */
+
+        header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 18px 20px;
+
+            background: #0b2520;
+
+            border-bottom: 1px solid #29453e;
+        }
+
+
+        .logo {
+            color: #d4af37;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        .profile {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: #d4af37;
+
+            color: #071a17;
+
+            font-weight: bold;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 30px 20px;
+        }
+
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+
+        .welcome h1 {
+            font-size: 28px;
+
+            color: #d4af37;
+
+            margin-bottom: 8px;
+        }
+
+
+        .welcome p {
+            color: #aaa;
+        }
+
+
+        /* SECTION TITLE */
+
+        .section-title {
+            color: #d4af37;
+
+            font-size: 24px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* DASHBOARD CARDS */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(210px, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .dashboard-card {
+            background: #0c2923;
+
+            border: 1px solid #29453e;
+
+            border-radius: 15px;
+
+            padding: 22px;
+        }
+
+
+        .icon {
+            font-size: 28px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .dashboard-card h3 {
+            color: #d4af37;
+
+            margin-bottom: 8px;
+        }
+
+
+        .dashboard-card p {
+            color: #aaa;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        /* CLICKABLE DASHBOARD / COURSE CARDS */
+
+        .dashboard-link,
+        .course-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dashboard-link:hover,
+        .course-link:hover {
+            transform: translateY(-4px);
+            border-color: #d4af37;
+        }
+
+        .dashboard-link:active,
+        .course-link:active {
+            transform: scale(0.99);
+        }
+
+
+        /* LIVE CLASS */
+
+        .live-class {
+            background: #0c2923;
+
+            border: 1px solid #29453e;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .live-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .live-header h2 {
+            color: #d4af37;
+
+            font-size: 22px;
+        }
+
+
+        .live-badge {
+            background: #b91c1c;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .class-name {
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .class-info {
+            color: #aaa;
+
+            line-height: 1.7;
+
+            margin-bottom: 18px;
+        }
+
+
+        .join-button {
+            display: inline-block;
+
+            background: #d4af37;
+
+            color: #071a17;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        /* COURSES */
+
+        .courses {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 18px;
+        }
+
+
+        .course {
+            background: #0c2923;
+
+            border: 1px solid #29453e;
+
+            border-radius: 15px;
+
+            padding: 22px;
+        }
+
+
+        .course h3 {
+            color: #d4af37;
+
+            margin-bottom: 10px;
+        }
+
+
+        .course p {
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-bottom: 15px;
+        }
+
+        .course-status {
+            display:inline-block;
+            margin-top:10px;
+            padding:7px 10px;
+            border-radius:20px;
+            font-size:12px;
+            font-weight:bold;
+            background:#29453e;
+            color:#aaa;
+        }
+
+        .course.locked {
+            opacity:.72;
+        }
+
+        .course.unlocked {
+            border-color:#d4af37;
+        }
+
+
+        .progress {
+            height: 7px;
+
+            background: #071a17;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            margin-bottom: 8px;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+
+            width: 65%;
+
+            background: #d4af37;
+        }
+
+
+        .progress-text {
+            color: #999;
+
+            font-size: 12px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 30px;
+
+            background: #051310;
+
+            color: #888;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .welcome h1 {
+                font-size: 24px;
+            }
+
+        }
+
+
+        .premium-hero{
+            background:linear-gradient(135deg,#0d3028,#123c31);
+            border:1px solid #5b5125;
+            border-radius:22px;
+            padding:25px 22px;
+            margin-bottom:28px;
+            box-shadow:0 12px 35px rgba(0,0,0,.28);
+            position:relative;
+            overflow:hidden;
+        }
+        .premium-hero:after{
+            content:"";
+            position:absolute;
+            width:150px;height:150px;
+            right:-55px;top:-65px;
+            border-radius:50%;
+            background:rgba(212,175,55,.12);
+        }
+        .premium-label{
+            color:#d4af37;
+            font-size:12px;
+            font-weight:bold;
+            letter-spacing:1.5px;
+            text-transform:uppercase;
+            margin-bottom:8px;
+        }
+        .premium-hero h1{
+            color:#fff;
+            font-size:27px;
+            margin-bottom:8px;
+        }
+        .premium-hero p{color:#b9c6c1;font-size:14px;line-height:1.6}
+        .premium-course{
+            position:relative;
+            overflow:hidden;
+            min-height:170px;
+            background:linear-gradient(145deg,#0d3028,#0a241f);
+            box-shadow:0 10px 28px rgba(0,0,0,.22);
+        }
+        .premium-course:before{
+            content:"";
+            position:absolute;
+            left:0;top:0;right:0;
+            height:3px;
+            background:#d4af37;
+        }
+        .course-icon{
+            width:48px;height:48px;
+            border-radius:14px;
+            display:flex;align-items:center;justify-content:center;
+            background:rgba(212,175,55,.13);
+            font-size:24px;
+            margin-bottom:14px;
+        }
+        .access-badge{
+            display:inline-block;
+            margin-top:12px;
+            padding:6px 10px;
+            border-radius:20px;
+            font-size:11px;
+            font-weight:bold;
+            border:1px solid #36554d;
+            color:#aaa;
+        }
+        .access-badge.active{
+            color:#d4af37;
+            border-color:#8d7625;
+            background:rgba(212,175,55,.08);
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            AL NOOR ISLAMI ACADEMY
+        </div>
+
+
+        <a href="profile.html" style="text-decoration:none;">
+    <div class="profile" id="profileInitials">AN</div>
+        </a>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+
+        <!-- WELCOME -->
+
+        <div class="premium-hero">
+            <div class="premium-label">AL NOOR ISLAMIC ACADEMY</div>
+            <h1>Assalamu Alaikum, <span id="studentName">Student</span> 👋</h1>
+            <p>Welcome to your learning dashboard. Your paid courses and classes are shown separately below.</p>
+        </div>
+
+
+
+        <!-- DASHBOARD -->
+
+        <h2 class="section-title">
+            My Dashboard
+        </h2>
+
+
+        <div class="dashboard-grid">
+
+
+            <a href="courses.html" class="dashboard-card dashboard-link">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    My Courses
+                </h3>
+
+                <p>
+                    View and continue your enrolled courses.
+                </p>
+
+            </a>
+
+
+
+
+
+
+
+            <a href="schedule.html" class="dashboard-card dashboard-link">
+
+                <div class="icon">
+                    📅
+                </div>
+
+                <h3>
+                    Schedule
+                </h3>
+
+                <p>
+                    View your weekly class schedule.
+                </p>
+
+            </a>
+
+
+            <a href="notifications.html" class="dashboard-card" style="text-decoration: none; color: inherit;">
+
+                <div class="icon">
+                    🔔
+                </div>
+
+                <h3>
+                    Notifications
+                </h3>
+
+                <p>
+                    See important academy announcements.
+                </p>
+
+            </a>
+
+
+
+            <a href="announcements.html"
+               class="dashboard-card dashboard-link">
+
+                <div class="icon">
+                    📢
+                </div>
+
+                <h3>
+                    Announcements
+                </h3>
+
+                <p>
+                    View important academy announcements, notices and updates.
+                </p>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- MY COURSES -->
+
+        <h2 class="section-title">
+            My Courses
+        </h2>
+
+        <!-- TAJWEED -->
+        <div style="margin-bottom:35px;">
+
+            <h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">
+                📖 Tajweed
+            </h3>
+
+            <a href="quran-course.html"
+               id="tajweedCard"
+               class="course course-link premium-course locked"
+               style="display:block;">
+
+                <div class="course-icon">📖</div>
+                <h3>Tajweed Course</h3>
+
+                <p>
+                    Quranic recitation rules and pronunciation.
+                </p>
+
+                <div id="tajweedStatus" class="course-status">
+                    Checking access...
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- ARABIC LANGUAGE -->
+        <div>
+
+            <h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">
+                🗣️ Arabic Language
+            </h3>
+
+            <a href="arabic-language.html"
+               id="arabicCard"
+               class="course course-link premium-course locked"
+               style="display:block;">
+
+                <div class="course-icon">🗣️</div>
+                <h3>Arabic Language Course</h3>
+
+                <p>
+                    Arabic grammar, vocabulary and conversation.
+                </p>
+
+                <div id="arabicStatus" class="course-status">
+                    Checking access...
+                </div>
+
+            </a>
+
+        </div>
+
+
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 Al Noor Islamic Academy
+
+    </footer>
+
+
+
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import { getAuth, onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import { getFirestore, doc, getDoc }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
+    authDomain: "al-noor-islamic-academy.firebaseapp.com",
+    projectId: "al-noor-islamic-academy",
+    storageBucket: "al-noor-islamic-academy.firebasestorage.app",
+    messagingSenderId: "571799539455",
+    appId: "1:571799539455:web:d42728685908430296c6ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const tajweedCard = document.getElementById("tajweedCard");
+const arabicCard = document.getElementById("arabicCard");
+const tajweedStatus = document.getElementById("tajweedStatus");
+const arabicStatus = document.getElementById("arabicStatus");
+
+const profileInitials = document.getElementById("profileInitials");
+const studentName = document.getElementById("studentName");
+
+function lock(card, status, text) {
+    card.classList.add("locked");
+    card.classList.remove("unlocked");
+    card.href = "payment.html";
+    status.textContent = "🔒 " + text;
+    status.classList.remove("active");
+    status.classList.add("access-badge");
+}
+
+function unlock(card, status, text, url) {
+    card.classList.remove("locked");
+    card.classList.add("unlocked");
+    card.href = url;
+    status.textContent = "✓ " + text;
+    status.classList.add("active");
+    status.classList.add("access-badge");
+}
+
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+        lock(tajweedCard, tajweedStatus, "Login required");
+        lock(arabicCard, arabicStatus, "Login required");
+        showLiveLocked();
+        return;
+    }
+
+    try {
+        const ref = doc(db, "students", user.uid);
+        const snap = await getDoc(ref);
+
+        const data = snap.exists() ? snap.data() : {};
+
+        const name =
+            data.name ||
+            data.fullName ||
+            data.displayName ||
+            user.displayName ||
+            "Student";
+
+        const cleanName = String(name).trim();
+
+        studentName.textContent = cleanName;
+
+        const initials = cleanName
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(word => word.charAt(0).toUpperCase())
+            .join("");
+
+        profileInitials.textContent = initials || "ST";
+
+        // Tajweed access = active + valid 30-day expiry.
+        let tajweedExpiry = null;
+
+        if (data.tajweedExpiryAt) {
+            tajweedExpiry = data.tajweedExpiryAt.toDate
+                ? data.tajweedExpiryAt.toDate()
+                : new Date(data.tajweedExpiryAt);
+        } else if (data.tajweedPurchasedAt) {
+            const purchasedAt = data.tajweedPurchasedAt.toDate
+                ? data.tajweedPurchasedAt.toDate()
+                : new Date(data.tajweedPurchasedAt);
+
+            if (!isNaN(purchasedAt.getTime())) {
+                tajweedExpiry = new Date(
+                    purchasedAt.getTime() + 30 * 24 * 60 * 60 * 1000
+                );
+            }
+        }
+
+        const tajweedActiveNow =
+            data.tajweedActive === true &&
+            (!tajweedExpiry || tajweedExpiry.getTime() > Date.now());
+
+        if (tajweedActiveNow) {
+            const expiryText = tajweedExpiry
+                ? " • Expires " + tajweedExpiry.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                  })
+                : "";
+
+            unlock(
+                tajweedCard,
+                tajweedStatus,
+                "Tajweed Active" + expiryText,
+                "quran-course.html"
+            );
+        } else {
+            lock(
+                tajweedCard,
+                tajweedStatus,
+                tajweedExpiry
+                    ? "Tajweed Expired — Renew ₹299"
+                    : "Tajweed Purchase Required"
+            );
+
+            tajweedCard.onclick = (e) => {
+                e.preventDefault();
+                window.location.href =
+                    "payment.html?course=tajweed&name=Tajweed&price=299";
+            };
+        }
+
+        // Arabic access = active + valid 30-day expiry.
+        let arabicExpiry = null;
+
+        if (data.arabicExpiryAt) {
+            const rawExpiry = data.arabicExpiryAt;
+            if (typeof rawExpiry.toDate === "function") {
+                arabicExpiry = rawExpiry.toDate();
+            } else if (rawExpiry.seconds) {
+                arabicExpiry = new Date(rawExpiry.seconds * 1000);
+            } else {
+                const parsedExpiry = new Date(rawExpiry);
+                if (!isNaN(parsedExpiry.getTime())) arabicExpiry = parsedExpiry;
+            }
+        } else if (data.arabicLanguagePurchasedAt) {
+            const rawPurchase = data.arabicLanguagePurchasedAt;
+            let purchasedAt = null;
+            if (typeof rawPurchase.toDate === "function") {
+                purchasedAt = rawPurchase.toDate();
+            } else if (rawPurchase.seconds) {
+                purchasedAt = new Date(rawPurchase.seconds * 1000);
+            } else {
+                const parsedPurchase = new Date(rawPurchase);
+                if (!isNaN(parsedPurchase.getTime())) purchasedAt = parsedPurchase;
+            }
+            if (purchasedAt) {
+                arabicExpiry = new Date(purchasedAt.getTime() + 30 * 24 * 60 * 60 * 1000);
+            }
+        }
+
+        const arabicActiveNow =
+            data.arabicLanguageActive === true &&
+            (!arabicExpiry || arabicExpiry.getTime() > Date.now());
+
+        if (arabicActiveNow) {
+            const expiryText = arabicExpiry
+                ? " • Expires " + arabicExpiry.toLocaleDateString("en-IN", {day:"2-digit", month:"short", year:"numeric"})
+                : "";
+            unlock(arabicCard, arabicStatus, "Arabic Active" + expiryText, "arabic-language.html");
+        } else {
+            lock(arabicCard, arabicStatus, arabicExpiry ? "Arabic Expired — Renew ₹299" : "Arabic Purchase Required");
+            arabicCard.onclick = (e) => {
+                e.preventDefault();
+                window.location.href = "payment.html?course=arabic-language&name=Arabic%20Language&price=299";
+            };
+        }
+
+    } catch (error) {
+        console.error(error);
+
+        tajweedStatus.textContent = "Unable to check Tajweed access.";
+        arabicStatus.textContent = "Unable to check Arabic Language access.";
+    }
+});
+</script>
+
+</body>
+
+</html>

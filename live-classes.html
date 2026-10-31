@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Live Classes - Al Noor Islamic Academy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #071f18;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #0b2d23;
+            padding: 18px 20px;
+            border-bottom: 1px solid #c9a227;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #d4af37;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid #c9a227;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b8c8c1;
+            margin-bottom: 28px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #d4af37;
+            padding: 30px;
+        }
+
+        .empty {
+            background: #0b2d23;
+            border: 1px solid #244d40;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: #b8c8c1;
+        }
+
+        .class-card {
+            background: #0b2d23;
+            border: 1px solid #244d40;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+        }
+
+        .class-title {
+            color: #d4af37;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .info {
+            color: #d7e2dd;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .info strong {
+            color: #ffffff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 12px;
+            text-transform: uppercase;
+        }
+
+        .status.upcoming {
+            background: #263b56;
+            color: #8fc5ff;
+        }
+
+        .status.live {
+            background: #164d32;
+            color: #6dffae;
+        }
+
+        .status.ended {
+            background: #3b3030;
+            color: #ff9b9b;
+        }
+
+        .join-btn {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            background: #d4af37;
+            color: #071f18;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .join-btn:hover {
+            background: #e5c354;
+        }
+
+        .refresh-text {
+            text-align: center;
+            color: #7f9990;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">AL NOOR</div>
+    <a href="dashboard.html" class="back-btn">← Dashboard</a>
+</header>
+
+<div class="container">
+
+    <h1>Live Classes</h1>
+
+    <p class="subtitle">
+        Attend your scheduled online Islamic classes
+    </p>
+
+    <div id="loading" class="loading">
+        Loading live classes...
+    </div>
+
+    <div id="classesContainer"></div>
+
+    <div class="refresh-text">
+        Class status updates automatically
+    </div>
+
+</div>
+
+
+<script type="module">
+
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    import {
+        getFirestore,
+        collection,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+    // =========================
+    // FIREBASE CONFIG
+    // =========================
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
+        authDomain: "al-noor-islamic-academy.firebaseapp.com",
+        projectId: "al-noor-islamic-academy",
+        storageBucket: "al-noor-islamic-academy.firebasestorage.app",
+        messagingSenderId: "571799539455",
+        appId: "1:571799539455:web:d42728685908430296c6ca"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    const loading =
+        document.getElementById("loading");
+
+    const classesContainer =
+        document.getElementById("classesContainer");
+
+
+    let allClasses = [];
+
+
+    // =========================
+    // HTML SECURITY
+    // =========================
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // =========================
+    // CLASS STATUS
+    // =========================
+
+    function getStatus(item) {
+
+        if (!item.date || !item.time) {
+            return "upcoming";
+        }
+
+        const start =
+            new Date(
+                `${item.date}T${item.time}:00`
+            );
+
+
+        // Admin panel থেকে duration আসবে
+        // না থাকলে old class-এর জন্য 60 minutes
+        const duration =
+            Number(item.duration || 60);
+
+
+        const end =
+            new Date(
+                start.getTime() +
+                duration * 60 * 1000
+            );
+
+
+        const now = new Date();
+
+
+        if (now < start) {
+            return "upcoming";
+        }
+
+
+        if (
+            now >= start &&
+            now < end
+        ) {
+            return "live";
+        }
+
+
+        return "ended";
+    }
+
+
+    // =========================
+    // DATE FORMAT
+    // =========================
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return "Not specified";
+        }
+
+        const date =
+            new Date(dateValue + "T00:00:00");
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+
+    // =========================
+    // TIME FORMAT
+    // =========================
+
+    function formatTime(timeValue) {
+
+        if (!timeValue) {
+            return "Not specified";
+        }
+
+        const parts =
+            timeValue.split(":");
+
+        let hour =
+            Number(parts[0]);
+
+        const minute =
+            parts[1] || "00";
+
+
+        const ampm =
+            hour >= 12 ? "PM" : "AM";
+
+
+        hour =
+            hour % 12 || 12;
+
+
+        return `${hour}:${minute} ${ampm}`;
+    }
+
+
+    // =========================
+    // SORT CLASSES
+    // =========================
+
+    function sortClasses(classes) {
+
+        return classes.sort(
+            (a, b) => {
+
+                const dateA =
+                    new Date(
+                        `${a.date || "9999-12-31"}T${a.time || "23:59"}:00`
+                    );
+
+                const dateB =
+                    new Date(
+                        `${b.date || "9999-12-31"}T${b.time || "23:59"}:00`
+                    );
+
+                return dateA - dateB;
+            }
+        );
+    }
+
+
+    // =========================
+    // DISPLAY CLASSES
+    // =========================
+
+    function displayClasses() {
+
+        classesContainer.innerHTML = "";
+
+
+        if (allClasses.length === 0) {
+
+            classesContainer.innerHTML = `
+                <div class="empty">
+                    No live classes available right now.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const sortedClasses =
+            sortClasses([...allClasses]);
+
+
+        sortedClasses.forEach(item => {
+
+            const status =
+                getStatus(item);
+
+
+            let statusText =
+                "UPCOMING";
+
+
+            if (status === "live") {
+                statusText = "LIVE NOW";
+            }
+
+            if (status === "ended") {
+                statusText = "ENDED";
+            }
+
+
+            let joinButton = "";
+
+
+            // শুধু Live class হলে Join button
+            if (
+                status === "live" &&
+                item.link
+            ) {
+
+                joinButton = `
+                    <a
+                        href="${escapeHtml(item.link)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="join-btn"
+                    >
+                        Join Live Class
+                    </a>
+                `;
+            }
+
+
+            const duration =
+                Number(item.duration || 60);
+
+
+            const card = document.createElement("div");
+
+            card.className =
+                "class-card";
+
+
+            card.innerHTML = `
+
+                <div class="class-title">
+                    ${escapeHtml(
+                        item.course || "Islamic Class"
+                    )}
+                </div>
+
+
+                <div class="info">
+                    <strong>Teacher:</strong>
+                    ${escapeHtml(
+                        item.teacher || "Not specified"
+                    )}
+                </div>
+
+
+                <div class="info">
+                    <strong>Date:</strong>
+                    ${formatDate(item.date)}
+                </div>
+
+
+                <div class="info">
+                    <strong>Time:</strong>
+                    ${formatTime(item.time)}
+                </div>
+
+
+                <div class="info">
+                    <strong>Duration:</strong>
+                    ${duration} Minutes
+                </div>
+
+
+                <div class="info">
+                    <strong>Platform:</strong>
+                    ${escapeHtml(
+                        item.platform || "Online"
+                    )}
+                </div>
+
+
+                <div class="status ${status}">
+                    ${statusText}
+                </div>
+
+
+                ${joinButton}
+
+            `;
+
+
+            classesContainer.appendChild(card);
+
+        });
+
+    }
+
+
+    // =========================
+    // LOAD CLASSES
+    // =========================
+
+    async function loadClasses() {
+
+        try {
+
+            loading.style.display =
+                "block";
+
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "liveClasses"
+                    )
+                );
+
+
+            allClasses = [];
+
+
+            snapshot.forEach(docSnap => {
+
+                allClasses.push({
+                    id: docSnap.id,
+                    ...docSnap.data()
+                });
+
+            });
+
+
+            loading.style.display =
+                "none";
+
+
+            displayClasses();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            loading.textContent =
+                "Unable to load live classes.";
+
+
+            loading.style.color =
+                "#ff9b9b";
+        }
+
+    }
+
+
+    // =========================
+    // LOGIN CHECK
+    // =========================
+
+    onAuthStateChanged(
+        auth,
+        user => {
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            loadClasses();
+
+        }
+    );
+
+
+    // =========================
+    // AUTO UPDATE
+    // EVERY 30 SECONDS
+    // =========================
+
+    setInterval(
+        () => {
+
+            if (allClasses.length > 0) {
+                displayClasses();
+            }
+
+        },
+        30000
+    );
+
+</script>
+
+</body>
+</html>

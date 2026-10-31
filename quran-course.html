@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tajweed | Al Noor Islamic Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#071a17;color:#fff;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:#0b2520;border-bottom:1px solid #d4af37}
+.logo{color:#d4af37;font-size:20px;font-weight:bold}
+.back{color:#d4af37;text-decoration:none;font-size:14px}
+.hero{text-align:center;padding:42px 20px 25px}
+.course-icon{font-size:52px;margin-bottom:12px}
+.hero h1{color:#d4af37;font-size:32px;margin-bottom:10px}
+.hero p{color:#aaa;line-height:1.6;max-width:600px;margin:auto}
+.container{max-width:900px;margin:auto;padding:10px 20px 50px}
+.access{text-align:center;margin-bottom:20px}
+.access-status{display:inline-block;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+.active{background:#174f3d;color:#9ff0c9}
+.required{background:#3d3517;color:#f1d875}
+.join-course{display:inline-block;margin-top:12px;background:#d4af37;color:#071a17;padding:13px 24px;border-radius:9px;text-decoration:none;font-weight:bold}
+.live-section{background:#0c2923;border:1px solid #29453e;border-radius:18px;padding:25px}
+.live-section h2{color:#d4af37;margin-bottom:18px}
+.live-card{background:#071a17;border:1px solid #29453e;border-radius:12px;padding:18px;margin-bottom:12px}
+.live-card:last-child{margin-bottom:0}
+.live-card h3{margin-bottom:10px;color:#fff}
+.meta{color:#bbb;font-size:14px;line-height:1.9}
+.join-btn{display:inline-block;margin-top:12px;background:#d4af37;color:#071a17;padding:10px 17px;border-radius:8px;text-decoration:none;font-weight:bold}
+.locked{margin-top:12px;color:#f1d875;font-size:13px}
+.empty{color:#999;text-align:center;padding:25px 10px}
+footer{text-align:center;padding:25px;background:#051310;color:#888;margin-top:20px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">AL NOOR</div>
+<a href="dashboard.html" class="back">← Dashboard</a>
+</header>
+
+<section class="hero">
+<div class="course-icon">📖</div>
+<h1>Tajweed</h1>
+<p>Tajweed Live Classes</p>
+</section>
+
+<main class="container">
+<div class="access">
+<div id="accessStatus" class="access-status required">Checking course access...</div>
+<div id="joinArea"></div>
+</div>
+
+<section class="live-section">
+<h2>🔴 Live Classes</h2>
+<div id="liveClasses"><div class="empty">Loading live classes...</div></div>
+</section>
+</main>
+
+<footer>© 2026 Al Noor Islamic Academy</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
+    authDomain: "al-noor-islamic-academy.firebaseapp.com",
+    projectId: "al-noor-islamic-academy",
+    storageBucket: "al-noor-islamic-academy.firebasestorage.app",
+    messagingSenderId: "571799539455",
+    appId: "1:571799539455:web:d42728685908430296c6ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const accessStatus = document.getElementById("accessStatus");
+const joinArea = document.getElementById("joinArea");
+const liveClasses = document.getElementById("liveClasses");
+
+let hasAccess = false;
+let classList = [];
+
+function updateAccess(active) {
+    hasAccess = active;
+    if (active) {
+        accessStatus.className = "access-status active";
+        accessStatus.textContent = "✓ Tajweed Access Active";
+        joinArea.innerHTML = "";
+    } else {
+        accessStatus.className = "access-status required";
+        accessStatus.textContent = "Tajweed Purchase Required";
+        joinArea.innerHTML = `<a class="join-course" href="payment.html?course=tajweed&name=Tajweed&price=299">Join Tajweed — ₹299</a>`;
+    }
+    renderClasses();
+}
+
+function renderClasses() {
+    if (!classList.length) {
+        liveClasses.innerHTML = '<div class="empty">No live classes available yet.</div>';
+        return;
+    }
+
+    liveClasses.innerHTML = "";
+    classList.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "live-card";
+
+        const teacher = item.teacher || "Teacher";
+        const date = item.date || "Date not set";
+        const time = item.time || "Time not set";
+        const platform = item.platform || "Online";
+        const link = item.link || "";
+
+        let action = "";
+        if (hasAccess && link) {
+            action = `<a class="join-btn" href="${link}" target="_blank" rel="noopener">▶ Join Live Class</a>`;
+        } else if (hasAccess) {
+            action = '<div class="locked">Class link will be available soon.</div>';
+        } else {
+            action = '<div class="locked">🔒 Purchase this course to join.</div>';
+        }
+
+        card.innerHTML = `
+            <h3>📖 Tajweed</h3>
+            <div class="meta">
+                👨‍🏫 Teacher: ${teacher}<br>
+                📅 Date: ${date}<br>
+                ⏰ Time: ${time}<br>
+                💻 Platform: ${platform}
+            </div>
+            ${action}
+        `;
+        liveClasses.appendChild(card);
+    });
+}
+
+async function loadClasses() {
+    try {
+        const q = query(collection(db, "tajweedClasses"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        classList = [];
+        snap.forEach(d => classList.push({id:d.id, ...d.data()}));
+        renderClasses();
+    } catch (error) {
+        console.error("Tajweed live classes error:", error);
+        liveClasses.innerHTML = '<div class="empty">Unable to load live classes.</div>';
+    }
+}
+
+onAuthStateChanged(auth, async user => {
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const snap = await getDoc(doc(db, "students", user.uid));
+        const data = snap.exists() ? snap.data() : {};
+
+        let tajweedExpiry = null;
+
+        if (data.tajweedExpiryAt) {
+            tajweedExpiry = data.tajweedExpiryAt.toDate
+                ? data.tajweedExpiryAt.toDate()
+                : new Date(data.tajweedExpiryAt);
+        } else if (data.tajweedPurchasedAt) {
+            const purchasedAt = data.tajweedPurchasedAt.toDate
+                ? data.tajweedPurchasedAt.toDate()
+                : new Date(data.tajweedPurchasedAt);
+
+            if (!isNaN(purchasedAt.getTime())) {
+                tajweedExpiry = new Date(
+                    purchasedAt.getTime() + 30 * 24 * 60 * 60 * 1000
+                );
+            }
+        }
+
+        const tajweedActiveNow =
+            data.tajweedActive === true &&
+            (!tajweedExpiry || tajweedExpiry.getTime() > Date.now());
+
+        updateAccess(tajweedActiveNow);
+        await loadClasses();
+    } catch (error) {
+        console.error("Tajweed access error:", error);
+        updateAccess(false);
+        await loadClasses();
+    }
+});
+</script>
+</body>
+</html>
