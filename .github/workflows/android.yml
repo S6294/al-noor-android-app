@@ -136,7 +136,10 @@ jobs:
             echo "KEYSTORE_BASE64 secret is missing"
             exit 1
           fi
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/upload-keystore.jks
+
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > android/upload-keystore.jks
+
+          test -s android/upload-keystore.jks
 
       - name: Configure release signing
         run: |
@@ -145,7 +148,7 @@ jobs:
           android {
               signingConfigs {
                   release {
-                      storeFile file("upload-keystore.jks")
+                      storeFile rootProject.file("upload-keystore.jks")
                       storePassword System.getenv("KEYSTORE_PASSWORD")
                       keyAlias System.getenv("KEY_ALIAS")
                       keyPassword System.getenv("KEY_PASSWORD")
