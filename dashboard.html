@@ -1,917 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard - Al Noor Islamic Academy</title>
-
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-
-        body {
-            font-family: Arial, sans-serif;
-
-            background: #071a17;
-
-            color: white;
-
-            min-height: 100vh;
-        }
-
-
-        /* HEADER */
-
-        header {
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            padding: 18px 20px;
-
-            background: #0b2520;
-
-            border-bottom: 1px solid #29453e;
-        }
-
-
-        .logo {
-            color: #d4af37;
-
-            font-size: 20px;
-
-            font-weight: bold;
-        }
-
-
-        .profile {
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            border-radius: 50%;
-
-            background: #d4af37;
-
-            color: #071a17;
-
-            font-weight: bold;
-        }
-
-
-        /* MAIN */
-
-        .container {
-            max-width: 1100px;
-
-            margin: auto;
-
-            padding: 30px 20px;
-        }
-
-
-        .welcome {
-            margin-bottom: 30px;
-        }
-
-
-        .welcome h1 {
-            font-size: 28px;
-
-            color: #d4af37;
-
-            margin-bottom: 8px;
-        }
-
-
-        .welcome p {
-            color: #aaa;
-        }
-
-
-        /* SECTION TITLE */
-
-        .section-title {
-            color: #d4af37;
-
-            font-size: 24px;
-
-            margin-bottom: 20px;
-        }
-
-
-        /* DASHBOARD CARDS */
-
-        .dashboard-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(210px, 1fr));
-
-            gap: 18px;
-
-            margin-bottom: 35px;
-        }
-
-
-        .dashboard-card {
-            background: #0c2923;
-
-            border: 1px solid #29453e;
-
-            border-radius: 15px;
-
-            padding: 22px;
-        }
-
-
-        .icon {
-            font-size: 28px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .dashboard-card h3 {
-            color: #d4af37;
-
-            margin-bottom: 8px;
-        }
-
-
-        .dashboard-card p {
-            color: #aaa;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-        }
-
-        /* CLICKABLE DASHBOARD / COURSE CARDS */
-
-        .dashboard-link,
-        .course-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .dashboard-link:hover,
-        .course-link:hover {
-            transform: translateY(-4px);
-            border-color: #d4af37;
-        }
-
-        .dashboard-link:active,
-        .course-link:active {
-            transform: scale(0.99);
-        }
-
-
-        /* LIVE CLASS */
-
-        .live-class {
-            background: #0c2923;
-
-            border: 1px solid #29453e;
-
-            border-radius: 18px;
-
-            padding: 25px;
-
-            margin-bottom: 30px;
-        }
-
-
-        .live-header {
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 20px;
-        }
-
-
-        .live-header h2 {
-            color: #d4af37;
-
-            font-size: 22px;
-        }
-
-
-        .live-badge {
-            background: #b91c1c;
-
-            padding: 7px 12px;
-
-            border-radius: 20px;
-
-            font-size: 12px;
-
-            font-weight: bold;
-        }
-
-
-        .class-name {
-            font-size: 20px;
-
-            margin-bottom: 8px;
-        }
-
-
-        .class-info {
-            color: #aaa;
-
-            line-height: 1.7;
-
-            margin-bottom: 18px;
-        }
-
-
-        .join-button {
-            display: inline-block;
-
-            background: #d4af37;
-
-            color: #071a17;
-
-            padding: 12px 20px;
-
-            border-radius: 9px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-        }
-
-
-        /* COURSES */
-
-        .courses {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(220px, 1fr));
-
-            gap: 18px;
-        }
-
-
-        .course {
-            background: #0c2923;
-
-            border: 1px solid #29453e;
-
-            border-radius: 15px;
-
-            padding: 22px;
-        }
-
-
-        .course h3 {
-            color: #d4af37;
-
-            margin-bottom: 10px;
-        }
-
-
-        .course p {
-            color: #aaa;
-
-            font-size: 14px;
-
-            margin-bottom: 15px;
-        }
-
-        .course-status {
-            display:inline-block;
-            margin-top:10px;
-            padding:7px 10px;
-            border-radius:20px;
-            font-size:12px;
-            font-weight:bold;
-            background:#29453e;
-            color:#aaa;
-        }
-
-        .course.locked {
-            opacity:.72;
-        }
-
-        .course.unlocked {
-            border-color:#d4af37;
-        }
-
-
-        .progress {
-            height: 7px;
-
-            background: #071a17;
-
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            margin-bottom: 8px;
-        }
-
-
-        .progress-bar {
-            height: 100%;
-
-            width: 65%;
-
-            background: #d4af37;
-        }
-
-
-        .progress-text {
-            color: #999;
-
-            font-size: 12px;
-        }
-
-
-        /* FOOTER */
-
-        footer {
-            text-align: center;
-
-            padding: 25px;
-
-            margin-top: 30px;
-
-            background: #051310;
-
-            color: #888;
-        }
-
-
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
-            .welcome h1 {
-                font-size: 24px;
-            }
-
-        }
-
-    
-        .premium-hero{
-            background:linear-gradient(135deg,#0d3028,#123c31);
-            border:1px solid #5b5125;
-            border-radius:22px;
-            padding:25px 22px;
-            margin-bottom:28px;
-            box-shadow:0 12px 35px rgba(0,0,0,.28);
-            position:relative;
-            overflow:hidden;
-        }
-        .premium-hero:after{
-            content:"";
-            position:absolute;
-            width:150px;height:150px;
-            right:-55px;top:-65px;
-            border-radius:50%;
-            background:rgba(212,175,55,.12);
-        }
-        .premium-label{
-            color:#d4af37;
-            font-size:12px;
-            font-weight:bold;
-            letter-spacing:1.5px;
-            text-transform:uppercase;
-            margin-bottom:8px;
-        }
-        .premium-hero h1{
-            color:#fff;
-            font-size:27px;
-            margin-bottom:8px;
-        }
-        .premium-hero p{color:#b9c6c1;font-size:14px;line-height:1.6}
-        .premium-course{
-            position:relative;
-            overflow:hidden;
-            min-height:170px;
-            background:linear-gradient(145deg,#0d3028,#0a241f);
-            box-shadow:0 10px 28px rgba(0,0,0,.22);
-        }
-        .premium-course:before{
-            content:"";
-            position:absolute;
-            left:0;top:0;right:0;
-            height:3px;
-            background:#d4af37;
-        }
-        .course-icon{
-            width:48px;height:48px;
-            border-radius:14px;
-            display:flex;align-items:center;justify-content:center;
-            background:rgba(212,175,55,.13);
-            font-size:24px;
-            margin-bottom:14px;
-        }
-        .access-badge{
-            display:inline-block;
-            margin-top:12px;
-            padding:6px 10px;
-            border-radius:20px;
-            font-size:11px;
-            font-weight:bold;
-            border:1px solid #36554d;
-            color:#aaa;
-        }
-        .access-badge.active{
-            color:#d4af37;
-            border-color:#8d7625;
-            background:rgba(212,175,55,.08);
-        }
-        .live-preview{
-            background:linear-gradient(145deg,#241414,#160e0e);
-            border:1px solid #5c2a2a;
-            border-radius:20px;
-            padding:22px;
-            margin-bottom:30px;
-            box-shadow:0 10px 28px rgba(0,0,0,.24);
-        }
-        .live-preview-header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            margin-bottom:15px;
-        }
-        .live-title{
-            color:#fff;
-            font-size:20px;
-            font-weight:bold;
-        }
-        .live-now{
-            display:inline-flex;
-            align-items:center;
-            gap:6px;
-            background:#b91c1c;
-            color:#fff;
-            padding:6px 10px;
-            border-radius:20px;
-            font-size:11px;
-            font-weight:bold;
-        }
-        .live-dot{
-            width:7px;height:7px;border-radius:50%;
-            background:#fff;
-        }
-        .live-preview p{
-            color:#b7aaa8;
-            font-size:14px;
-            line-height:1.6;
-            margin-bottom:16px;
-        }
-        .live-locked{
-            padding:12px 14px;
-            border-radius:12px;
-            background:rgba(255,255,255,.04);
-            color:#aaa;
-            font-size:13px;
-            border:1px solid #3b2525;
-        }
-        .live-open{
-            display:inline-block;
-            padding:11px 17px;
-            border-radius:10px;
-            background:#d4af37;
-            color:#071a17;
-            font-weight:bold;
-            text-decoration:none;
-        }
-
-    
-        /* ===== COLORFUL ULTRA PREMIUM ===== */
-
-        body{
-            background:
-                radial-gradient(circle at 10% 0%,rgba(16,185,129,.10),transparent 28%),
-                radial-gradient(circle at 90% 8%,rgba(239,68,68,.09),transparent 25%),
-                #050f0d;
-        }
-
-        header{
-            background:linear-gradient(135deg,#071a17,#12372d,#241316);
-            border-bottom:1px solid rgba(212,175,55,.30);
-            box-shadow:0 8px 25px rgba(0,0,0,.22);
-        }
-
-        .logo{
-            color:#f5d76e;
-            font-size:17px;
-            letter-spacing:1px;
-            text-shadow:0 0 18px rgba(245,215,110,.18);
-        }
-
-        .profile{
-            background:linear-gradient(135deg,#f7df7a,#d4af37);
-            border:2px solid rgba(255,255,255,.35);
-            box-shadow:0 0 0 5px rgba(212,175,55,.08);
-        }
-
-        .premium-hero{
-            background:
-                radial-gradient(circle at 88% 8%,rgba(212,175,55,.27),transparent 25%),
-                radial-gradient(circle at 8% 95%,rgba(16,185,129,.16),transparent 30%),
-                linear-gradient(135deg,#10382e,#142f3b 55%,#28151b);
-            border:1px solid rgba(245,215,110,.28);
-            box-shadow:0 20px 50px rgba(0,0,0,.32);
-        }
-
-        .dashboard-card{
-            background:linear-gradient(145deg,#12382f,#10252e);
-            border-color:rgba(212,175,55,.18);
-            box-shadow:0 12px 30px rgba(0,0,0,.20);
-        }
-
-        .dashboard-grid .dashboard-card:nth-child(2){
-            background:linear-gradient(145deg,#351719,#172630);
-            border-color:rgba(239,68,68,.28);
-        }
-
-        .dashboard-grid .dashboard-card:nth-child(3){
-            background:linear-gradient(145deg,#27213e,#102c2d);
-            border-color:rgba(129,140,248,.28);
-        }
-
-        .premium-course{
-            background:
-                radial-gradient(circle at 90% 10%,rgba(212,175,55,.16),transparent 28%),
-                linear-gradient(145deg,#123c31,#172b3b);
-            border-color:rgba(212,175,55,.20);
-            box-shadow:0 15px 35px rgba(0,0,0,.25);
-        }
-
-        .course-icon{
-            background:linear-gradient(145deg,rgba(212,175,55,.25),rgba(34,197,94,.10));
-            border:1px solid rgba(212,175,55,.16);
-        }
-
-        .live-preview{
-            background:
-                radial-gradient(circle at 90% 5%,rgba(239,68,68,.22),transparent 30%),
-                radial-gradient(circle at 5% 100%,rgba(245,158,11,.10),transparent 30%),
-                linear-gradient(145deg,#2b1518,#151b28);
-            border-color:rgba(239,68,68,.35);
-            box-shadow:0 18px 40px rgba(0,0,0,.28);
-        }
-
-        footer{
-            border-top:1px solid rgba(212,175,55,.10);
-            background:#030a08;
-        }
-
-        @media(max-width:600px){
-            .logo{
-                font-size:11px;
-                letter-spacing:.5px;
-                max-width:245px;
-            }
-        }
-
-    
-
-/* ===== AL NOOR PREMIUM DASHBOARD THEME ===== */
-body {
-    background:
-        radial-gradient(circle at 10% 5%, rgba(212,175,55,.09), transparent 25%),
-        linear-gradient(145deg, #04130f, #071f19 55%, #09271f);
-    color: #f5f1df;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Al Noor Islamic Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#071a17;color:white;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:#0b2520;border-bottom:1px solid #29453e}
+.logo{color:#d4af37;font-size:20px;font-weight:bold}
+.profile{width:42px;height:42px;display:flex;justify-content:center;align-items:center;border-radius:50%;background:#d4af37;color:#071a17;font-weight:bold}
+.container{max-width:1100px;margin:auto;padding:30px 20px}
+.welcome{margin-bottom:30px}
+.welcome h1{font-size:28px;color:#d4af37;margin-bottom:8px}
+.welcome p{color:#aaa}
+.section-title{color:#d4af37;font-size:24px;margin-bottom:20px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin-bottom:35px}
+.dashboard-card{background:#0c2923;border:1px solid #29453e;border-radius:15px;padding:22px}
+.icon{font-size:28px;margin-bottom:12px}
+.dashboard-card h3{color:#d4af37;margin-bottom:8px}
+.dashboard-card p{color:#aaa;font-size:14px;line-height:1.5}
+.dashboard-link,.course-link{display:block;text-decoration:none;color:inherit;cursor:pointer;transition:.3s}
+.dashboard-link:hover,.course-link:hover{transform:translateY(-4px);border-color:#d4af37}
+.dashboard-link:active,.course-link:active{transform:scale(.99)}
+.live-class{background:#0c2923;border:1px solid #29453e;border-radius:18px;padding:25px;margin-bottom:30px}
+.live-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.live-header h2{color:#d4af37;font-size:22px}
+.live-badge{background:#b91c1c;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+.class-name{font-size:20px;margin-bottom:8px}
+.class-info{color:#aaa;line-height:1.7;margin-bottom:18px}
+.join-button{display:inline-block;background:#d4af37;color:#071a17;padding:12px 20px;border-radius:9px;text-decoration:none;font-weight:bold}
+.courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.course{background:#0c2923;border:1px solid #29453e;border-radius:15px;padding:22px}
+.course h3{color:#d4af37;margin-bottom:10px}
+.course p{color:#aaa;font-size:14px;margin-bottom:15px}
+.course-status{display:inline-block;margin-top:10px;padding:7px 10px;border-radius:20px;font-size:12px;font-weight:bold;background:#29453e;color:#aaa}
+.course.locked{opacity:.72}
+.course.unlocked{border-color:#d4af37}
+.progress{height:7px;background:#071a17;border-radius:10px;overflow:hidden;margin-bottom:8px}
+.progress-bar{height:100%;width:65%;background:#d4af37}
+.progress-text{color:#999;font-size:12px}
+footer{text-align:center;padding:25px;margin-top:30px;background:#051310;color:#888}
+@media(max-width:600px){.welcome h1{font-size:24px}}
+.premium-hero{background:linear-gradient(135deg,#0d3028,#123c31);border:1px solid #5b5125;border-radius:22px;padding:25px 22px;margin-bottom:28px;box-shadow:0 12px 35px rgba(0,0,0,.28);position:relative;overflow:hidden}
+.premium-hero:after{content:"";position:absolute;width:150px;height:150px;right:-55px;top:-65px;border-radius:50%;background:rgba(212,175,55,.12)}
+.premium-label{color:#d4af37;font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.premium-hero h1{color:#fff;font-size:27px;margin-bottom:8px}
+.premium-hero p{color:#b9c6c1;font-size:14px;line-height:1.6}
+.premium-course{position:relative;overflow:hidden;min-height:170px;background:linear-gradient(145deg,#0d3028,#0a241f);box-shadow:0 10px 28px rgba(0,0,0,.22)}
+.premium-course:before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:#d4af37}
+.course-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(212,175,55,.13);font-size:24px;margin-bottom:14px}
+.access-badge{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:bold;border:1px solid #36554d;color:#aaa}
+.access-badge.active{color:#d4af37;border-color:#8d7625;background:rgba(212,175,55,.08)}
+
+/* MODERN PREMIUM DESIGN — visual styling only */
+:root{--gold:#e8cb78;--gold-soft:#d4af37;--deep:#04120d;--panel:#0b2a20;--panel2:#10382a;--muted:#b8c9c0;--stroke:rgba(232,203,120,.25)}
+html{scroll-behavior:smooth}
+body{
+ color:#f8f7f0;
+ background:
+  radial-gradient(ellipse at 12% 0%,rgba(33,112,76,.24),transparent 34%),
+  radial-gradient(ellipse at 100% 38%,rgba(194,151,55,.09),transparent 30%),
+  linear-gradient(150deg,#030d09 0%,#061b13 52%,#09271d 100%);
+ background-attachment:fixed;
+ overflow-x:hidden;
 }
-header {
-    background: rgba(8,35,27,.96);
-    border-bottom: 1px solid rgba(212,175,55,.35);
-    box-shadow: 0 8px 28px rgba(0,0,0,.25);
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    backdrop-filter: blur(14px);
+header{
+ position:sticky;top:0;z-index:10;
+ padding:14px clamp(17px,4vw,42px);
+ min-height:72px;
+ background:rgba(4,21,14,.88);
+ border-bottom:1px solid rgba(232,203,120,.3);
+ box-shadow:0 10px 30px rgba(0,0,0,.22);
+ backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
 }
-.logo {
-    font-family: Georgia,serif;
-    letter-spacing: 1.5px;
-    font-size: 21px;
-    text-shadow: 0 2px 12px rgba(212,175,55,.18);
+.logo{
+ color:var(--gold);font-family:Georgia,"Times New Roman",serif;
+ font-size:clamp(16px,2.5vw,22px);letter-spacing:1.25px;
+ text-shadow:0 3px 18px rgba(232,203,120,.16)
 }
-.profile {
-    border: 2px solid #f2d77b;
-    box-shadow: 0 0 20px rgba(212,175,55,.22);
+.profile{
+ width:46px;height:46px;border:1px solid rgba(255,239,181,.8);
+ background:linear-gradient(145deg,#ffedb0,#c79c3e);
+ color:#10251a;font-size:15px;
+ box-shadow:0 0 0 5px rgba(212,175,55,.09),0 8px 20px rgba(0,0,0,.25);
+ transition:transform .25s,box-shadow .25s
 }
-.container { padding-top:32px; padding-bottom:45px; }
-.premium-hero {
-    background:
-        radial-gradient(circle at 90% 5%, rgba(212,175,55,.22), transparent 28%),
-        linear-gradient(135deg,#123e30,#0b2921 65%,#102e27);
-    border:1px solid rgba(226,195,91,.45);
-    border-radius:26px;
-    padding:32px 25px;
-    margin-bottom:38px;
-    box-shadow:0 18px 45px rgba(0,0,0,.32);
+.profile:hover{transform:translateY(-2px);box-shadow:0 0 0 6px rgba(212,175,55,.13),0 10px 24px rgba(0,0,0,.3)}
+.container{width:min(100% - 34px,1080px);padding:34px 0 48px}
+.premium-hero{
+ isolation:isolate;min-height:205px;
+ padding:clamp(26px,5vw,42px);
+ margin-bottom:40px;border-radius:27px;
+ border:1px solid rgba(232,203,120,.38);
+ background:linear-gradient(110deg,rgba(8,39,27,.98),rgba(14,65,45,.95) 62%,rgba(24,57,39,.94));
+ box-shadow:0 22px 52px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07)
 }
-.premium-label { letter-spacing:2px; color:#e7ca72; }
-.premium-hero h1 {
-    font-family:Georgia,serif;
-    font-size:clamp(25px,5vw,36px);
-    line-height:1.3;
+.premium-hero:after{
+ width:220px;height:220px;right:-65px;top:-105px;
+ background:radial-gradient(circle,rgba(232,203,120,.19),rgba(232,203,120,0) 70%);
+ box-shadow:0 0 0 25px rgba(232,203,120,.025)
 }
-.premium-hero p { color:#c4d2cb; font-size:15px; line-height:1.8; }
-.section-title {
-    font-family:Georgia,serif;
-    font-size:25px;
-    color:#efd477;
-    margin:35px 0 20px;
+.premium-label{color:var(--gold);font-size:11px;letter-spacing:2.4px;margin-bottom:16px}
+.premium-label:before{content:"";display:inline-block;width:25px;height:1px;background:var(--gold);vertical-align:middle;margin-right:9px}
+.premium-hero h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,5vw,39px);line-height:1.23;letter-spacing:-.4px;margin-bottom:13px}
+.premium-hero p{max-width:650px;color:#c6d7ce;font-size:14px;line-height:1.8}
+.section-title{
+ display:flex;align-items:center;gap:13px;
+ color:var(--gold);font-family:Georgia,"Times New Roman",serif;
+ font-size:clamp(22px,3vw,27px);font-weight:600;margin-bottom:21px
 }
-.dashboard-grid,.courses { gap:18px; }
-.dashboard-card,.course {
-    background:linear-gradient(145deg,rgba(19,62,48,.96),rgba(8,34,27,.98));
-    border:1px solid rgba(212,175,55,.22);
-    border-radius:20px;
-    padding:24px;
-    box-shadow:0 12px 30px rgba(0,0,0,.23);
-    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+.section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(232,203,120,.45),transparent)}
+.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin-bottom:43px}
+.dashboard-card{
+ min-height:158px;position:relative;overflow:hidden;
+ padding:23px;border-radius:21px;
+ border:1px solid var(--stroke);
+ background:linear-gradient(145deg,rgba(17,62,44,.97),rgba(7,33,23,.99));
+ box-shadow:0 13px 30px rgba(0,0,0,.23),inset 0 1px 0 rgba(255,255,255,.045);
+ transition:transform .25s,border-color .25s,box-shadow .25s
 }
-.dashboard-link:hover,.course-link:hover {
-    transform:translateY(-5px);
-    border-color:#e3c35d;
-    box-shadow:0 18px 35px rgba(0,0,0,.32);
+.dashboard-card:after{
+ content:"";position:absolute;width:110px;height:110px;right:-48px;bottom:-58px;
+ border-radius:50%;border:1px solid rgba(232,203,120,.13);
+ box-shadow:0 0 0 15px rgba(232,203,120,.025);pointer-events:none
 }
-.icon,.course-icon { color:#f0d477; filter:drop-shadow(0 4px 8px rgba(212,175,55,.16)); }
-.dashboard-card h3,.course h3 { color:#efd477; font-family:Georgia,serif; font-size:19px; }
-.dashboard-card p,.course p { color:#bdcbc4; line-height:1.7; }
-.premium-course {
-    background:radial-gradient(circle at 90% 5%,rgba(212,175,55,.15),transparent 30%),linear-gradient(145deg,#123d30,#09271f);
-    border:1px solid rgba(212,175,55,.32);
-    border-radius:21px;
-    padding:25px;
-    box-shadow:0 14px 32px rgba(0,0,0,.28);
+.dashboard-link:hover,.course-link:hover{transform:translateY(-5px);border-color:rgba(255,226,148,.75);box-shadow:0 20px 38px rgba(0,0,0,.34)}
+.dashboard-link:active,.course-link:active{transform:scale(.985)}
+.icon{
+ width:49px;height:49px;display:flex;align-items:center;justify-content:center;
+ margin-bottom:16px;border-radius:16px;
+ background:linear-gradient(145deg,rgba(232,203,120,.2),rgba(232,203,120,.06));
+ border:1px solid rgba(232,203,120,.24);font-size:25px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07)
 }
-.premium-course:before { height:4px; background:linear-gradient(90deg,#b78b25,#ffe69a,#b78b25); }
-.course-icon {
-    width:54px;height:54px;border-radius:16px;
-    background:rgba(212,175,55,.13);
-    border:1px solid rgba(212,175,55,.24);
+.dashboard-card h3,.course h3{color:var(--gold);font-family:Georgia,"Times New Roman",serif;font-size:19px;margin-bottom:9px}
+.dashboard-card p,.course p{color:var(--muted);font-size:13px;line-height:1.7}
+main>div[style*="margin-bottom:35px"]>h3,main>div>h3[style]{color:var(--gold)!important;font-family:Georgia,"Times New Roman",serif;font-size:20px!important;letter-spacing:.2px}
+.premium-course{
+ min-height:185px;padding:25px;border-radius:23px;
+ border:1px solid rgba(232,203,120,.32);
+ background:radial-gradient(circle at 95% 5%,rgba(232,203,120,.15),transparent 29%),linear-gradient(145deg,#123e2d,#08271d 78%);
+ box-shadow:0 16px 36px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.045)
 }
-.course-status,.access-badge {
-    border-radius:30px;padding:8px 13px;font-size:12px;
-    background:rgba(212,175,55,.09);
-    border:1px solid rgba(212,175,55,.3);color:#e8d38a;
+.premium-course:before{height:4px;background:linear-gradient(90deg,#a77d25,#f8e5a0,#bd963b)}
+.premium-course:after{
+ content:"";position:absolute;right:-48px;bottom:-68px;width:170px;height:170px;
+ border-radius:50%;border:1px solid rgba(232,203,120,.12);
+ box-shadow:0 0 0 18px rgba(232,203,120,.025),0 0 0 38px rgba(232,203,120,.02);pointer-events:none
 }
-.access-badge.active { background:rgba(34,197,94,.12);border-color:rgba(74,222,128,.4);color:#86efac; }
-.course.locked { opacity:.85; }
-.course.unlocked { border-color:rgba(74,222,128,.55); }
-footer { background:#030e0b;border-top:1px solid rgba(212,175,55,.2);color:#9aaba3;padding:28px 18px; }
-@media(max-width:600px) {
-    header { padding:16px; }
-    .logo { font-size:17px; }
-    .container { padding:22px 15px 35px; }
-    .premium-hero { padding:27px 20px;border-radius:22px; }
-    .dashboard-grid { grid-template-columns:1fr 1fr;gap:12px; }
-    .dashboard-card { padding:17px 14px;border-radius:17px; }
-    .dashboard-card h3 { font-size:16px; }
-    .dashboard-card p { font-size:12px; }
-    .courses { grid-template-columns:1fr; }
+.course-icon{width:55px;height:55px;border-radius:17px;background:rgba(232,203,120,.14);border:1px solid rgba(232,203,120,.24);font-size:26px;margin-bottom:17px}
+.premium-course h3{font-size:21px}
+.premium-course p{margin-bottom:12px}
+.course-status,.access-badge{
+ display:inline-flex;align-items:center;border-radius:30px;padding:8px 13px;
+ font-size:11px;font-weight:700;letter-spacing:.2px;
+ background:rgba(232,203,120,.09);border:1px solid rgba(232,203,120,.28);color:#f0d98f
 }
-@media(max-width:350px) { .dashboard-grid { grid-template-columns:1fr; } }
-
-    </style>
-
+.access-badge.active{color:#a6edbd;border-color:rgba(93,208,137,.42);background:rgba(37,139,78,.15)}
+.course.locked{opacity:.88}
+.course.unlocked{border-color:rgba(112,220,151,.56)}
+footer{margin-top:25px;padding:27px 18px;background:rgba(2,12,8,.94);border-top:1px solid rgba(232,203,120,.22);color:#9aada3;font-size:13px;letter-spacing:.25px}
+a:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:12px}
+@media(max-width:600px){
+ header{min-height:67px;padding:12px 16px}
+ .logo{font-size:16px;letter-spacing:.8px}
+ .profile{width:43px;height:43px}
+ .container{width:min(100% - 28px,1080px);padding:24px 0 38px}
+ .premium-hero{min-height:0;padding:27px 20px;margin-bottom:33px;border-radius:23px}
+ .premium-hero h1{font-size:27px}
+ .premium-hero p{font-size:13px}
+ .dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:36px}
+ .dashboard-card{min-height:155px;padding:17px 14px;border-radius:18px}
+ .dashboard-card h3{font-size:16px}
+ .dashboard-card p{font-size:12px;line-height:1.55}
+ .icon{width:43px;height:43px;font-size:22px;border-radius:14px;margin-bottom:13px}
+ .premium-course{min-height:0;padding:21px 18px;border-radius:20px}
+ .premium-course h3{font-size:19px}
+ .section-title{font-size:23px}
+}
+@media(max-width:360px){.dashboard-grid{grid-template-columns:1fr}.dashboard-card{min-height:130px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
-
-
 <body>
-
-
-    <!-- HEADER -->
-
-    <header>
-
-        <div class="logo">
-            AL NOOR ISLAMIC ACADEMY
-        </div>
-
-
-        <a href="profile.html" style="text-decoration:none;">
-    <div class="profile" id="profileInitials">AN</div>
-        </a>
-
-    </header>
-
-
-
-    <!-- MAIN -->
-
-    <main class="container">
-
-
-        <!-- WELCOME -->
-
-        <div class="premium-hero">
-            <div class="premium-label">AL NOOR ISLAMIC ACADEMY</div>
-            <h1>Assalamu Alaikum, <span id="welcomeName">Student</span> 👋</h1>
-            <p>Welcome to your learning dashboard. Your paid courses and classes are shown separately below.</p>
-        </div>
-
-
-
-        <!-- DASHBOARD -->
-
-        <h2 class="section-title">
-            My Dashboard
-        </h2>
-
-
-        <div class="dashboard-grid">
-
-
-            <a href="courses.html" class="dashboard-card dashboard-link">
-
-                <div class="icon">
-                    📚
-                </div>
-
-                <h3>
-                    My Courses
-                </h3>
-
-                <p>
-                    View and continue your enrolled courses.
-                </p>
-
-            </a>
-
-
-
-            <a href="live-classes.html" class="dashboard-card" style="text-decoration:none; color:inherit;">
-
-                <div class="icon">
-                    🔴
-                </div>
-
-                <h3>
-                    Live Classes
-                </h3>
-
-            
-
-
-
-            <a href="notifications.html" class="dashboard-card" style="text-decoration: none; color: inherit;">
-
-                <div class="icon">
-                    🔔
-                </div>
-
-                <h3>
-                    Notifications
-                </h3>
-
-                <p>
-                    See important academy announcements.
-                </p>
-
-            </a>
-
-        </div>
-
-
-
-        <!-- LIVE CLASS PREVIEW -->
-        <section class="live-preview">
-
-            <div class="live-preview-header">
-                <div class="live-title">🎥 Live Classes</div>
-                <span class="live-now">
-                    <span class="live-dot"></span>
-                    LIVE
-                </span>
-            </div>
-
-            <p id="liveClassInfo">
-                Admin live classes will appear here when available.
-            </p>
-
-            <div id="liveAccessBox" class="live-locked">
-                🔒 Live class access is available only to students who have paid for Live Classes.
-            </div>
-
-        </section>
-
-
-        <!-- MY COURSES -->
-
-        <h2 class="section-title">
-            My Courses
-        </h2>
-
-        <!-- TAJWEED -->
-        <div style="margin-bottom:35px;">
-
-            <h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">
-                📖 Tajweed
-            </h3>
-
-            <a href="quran-course.html"
-               id="tajweedCard"
-               class="course course-link premium-course locked"
-               style="display:block;">
-
-                <div class="course-icon">📖</div>
-                <h3>Tajweed Course</h3>
-
-                <p>
-                    Quranic recitation rules and pronunciation.
-                </p>
-
-                <div id="tajweedStatus" class="course-status">
-                    Checking access...
-                </div>
-
-            </a>
-
-        </div>
-
-
-        <!-- ARABIC LANGUAGE -->
-        <div>
-
-            <h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">
-                🗣️ Arabic Language
-            </h3>
-
-            <a href="arabic-language.html"
-               id="arabicCard"
-               class="course course-link premium-course locked"
-               style="display:block;">
-
-                <div class="course-icon">🗣️</div>
-                <h3>Arabic Language Course</h3>
-
-                <p>
-                    Arabic grammar, vocabulary and conversation.
-                </p>
-
-                <div id="arabicStatus" class="course-status">
-                    Checking access...
-                </div>
-
-            </a>
-
-        </div>
-
-
-
-    </main>
-
-
-
-    <!-- FOOTER -->
-
-    <footer>
-
-        © 2026 Al Noor Islamic Academy
-
-    </footer>
-
-
-
+<header>
+<div class="logo">AL NOOR ISLAMI ACADEMY</div>
+<a href="profile.html" style="text-decoration:none;"><div class="profile" id="profileInitials">AN</div></a>
+</header>
+<main class="container">
+<div class="premium-hero">
+<div class="premium-label">AL NOOR ISLAMIC ACADEMY</div>
+<h1>Assalamu Alaikum, <span id="studentName">Student</span> 👋</h1>
+<p>Welcome to your learning dashboard. Your paid courses and classes are shown separately below.</p>
+</div>
+<h2 class="section-title">My Dashboard</h2>
+<div class="dashboard-grid">
+<a href="courses.html" class="dashboard-card dashboard-link"><div class="icon">📚</div><h3>My Courses</h3><p>View and continue your enrolled courses.</p></a>
+<a href="schedule.html" class="dashboard-card dashboard-link"><div class="icon">📅</div><h3>Schedule</h3><p>View your weekly class schedule.</p></a>
+<a href="notifications.html" class="dashboard-card" style="text-decoration: none; color: inherit;"><div class="icon">🔔</div><h3>Notifications</h3><p>See important academy announcements.</p></a>
+<a href="announcements.html" class="dashboard-card dashboard-link"><div class="icon">📢</div><h3>Announcements</h3><p>View important academy announcements, notices and updates.</p></a>
+</div>
+<h2 class="section-title">My Courses</h2>
+<div style="margin-bottom:35px;">
+<h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">📖 Tajweed</h3>
+<a href="quran-course.html" id="tajweedCard" class="course course-link premium-course locked" style="display:block;">
+<div class="course-icon">📖</div><h3>Tajweed Course</h3>
+<p>Quranic recitation rules and pronunciation.</p>
+<div id="tajweedStatus" class="course-status">Checking access...</div>
+</a>
+</div>
+<div>
+<h3 style="color:#d4af37;font-size:20px;margin-bottom:15px;">🗣️ Arabic Language</h3>
+<a href="arabic-language.html" id="arabicCard" class="course course-link premium-course locked" style="display:block;">
+<div class="course-icon">🗣️</div><h3>Arabic Language Course</h3>
+<p>Arabic grammar, vocabulary and conversation.</p>
+<div id="arabicStatus" class="course-status">Checking access...</div>
+</a>
+</div>
+</main>
+<footer>© 2026 Al Noor Islamic Academy</footer>
 <script type="module">
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-import { getAuth, onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
-import { getFirestore, doc, getDoc }
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyBvugRPCyDcq0gJsE_eUsaoVExi5Rc614k",
     authDomain: "al-noor-islamic-academy.firebaseapp.com",
@@ -920,53 +232,15 @@ const firebaseConfig = {
     messagingSenderId: "571799539455",
     appId: "1:571799539455:web:d42728685908430296c6ca"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-const welcomeName = document.getElementById("welcomeName");
-const profileInitials = document.getElementById("profileInitials");
-
-function getStudentName(data, user) {
-    return (
-        data.fullName ||
-        data.name ||
-        data.displayName ||
-        user.displayName ||
-        (user.email ? user.email.split("@")[0] : "Student")
-    );
-}
-
-function getInitials(name) {
-    const clean = String(name || "").trim();
-
-    if (!clean) return "AN";
-
-    const parts = clean.split(/\s+/).filter(Boolean);
-
-    if (parts.length === 1) {
-        return parts[0].slice(0, 2).toUpperCase();
-    }
-
-    return (
-        parts[0].charAt(0) +
-        parts[parts.length - 1].charAt(0)
-    ).toUpperCase();
-}
-
-function setStudentIdentity(data, user) {
-    const name = getStudentName(data, user);
-
-    welcomeName.textContent = name;
-    profileInitials.textContent = getInitials(name);
-}
-
 const tajweedCard = document.getElementById("tajweedCard");
 const arabicCard = document.getElementById("arabicCard");
 const tajweedStatus = document.getElementById("tajweedStatus");
 const arabicStatus = document.getElementById("arabicStatus");
-
+const profileInitials = document.getElementById("profileInitials");
+const studentName = document.getElementById("studentName");
 function lock(card, status, text) {
     card.classList.add("locked");
     card.classList.remove("unlocked");
@@ -975,7 +249,6 @@ function lock(card, status, text) {
     status.classList.remove("active");
     status.classList.add("access-badge");
 }
-
 function unlock(card, status, text, url) {
     card.classList.remove("locked");
     card.classList.add("unlocked");
@@ -984,115 +257,81 @@ function unlock(card, status, text, url) {
     status.classList.add("active");
     status.classList.add("access-badge");
 }
-
-
-const liveClassInfo = document.getElementById("liveClassInfo");
-const liveAccessBox = document.getElementById("liveAccessBox");
-
-function showLiveLocked() {
-    liveClassInfo.textContent =
-        "A live class is available. You can see the class information, but access is locked until Live Classes is purchased.";
-    liveAccessBox.innerHTML =
-        "🔒 <strong>Live Class Locked</strong><br><span style='font-size:12px;'>Purchase Live Classes to enter the live class.</span>";
-}
-
-function showLiveOpen() {
-    liveClassInfo.textContent =
-        "Your Live Classes access is active. You can enter the live class from the Live Classes page.";
-    liveAccessBox.innerHTML =
-        "<a href='live-classes.html' class='live-open'>Join Live Class →</a>";
-}
-
-function showNoLive() {
-    liveClassInfo.textContent =
-        "No live class is currently available. New classes added by Admin will appear here.";
-    liveAccessBox.innerHTML =
-        "ℹ️ No live class is currently running.";
-}
-
 onAuthStateChanged(auth, async (user) => {
-
     if (!user) {
-        welcomeName.textContent = "Student";
-        profileInitials.textContent = "AN";
         lock(tajweedCard, tajweedStatus, "Login required");
         lock(arabicCard, arabicStatus, "Login required");
         showLiveLocked();
         return;
     }
-
     try {
         const ref = doc(db, "students", user.uid);
         const snap = await getDoc(ref);
-
         const data = snap.exists() ? snap.data() : {};
-
-        // Show the student's real name and matching initials.
-        setStudentIdentity(data, user);
-
-        // Live Classes access is separate from Tajweed and Arabic.
-        // Only liveClassesActive can unlock Live Classes.
-        if (data.liveClassAvailable === true) {
-            if (data.liveClassesActive === true) {
-                showLiveOpen();
-            } else {
-                showLiveLocked();
+        const name = data.name || data.fullName || data.displayName || user.displayName || "Student";
+        const cleanName = String(name).trim();
+        studentName.textContent = cleanName;
+        const initials = cleanName.split(/\s+/).filter(Boolean).slice(0, 2).map(word => word.charAt(0).toUpperCase()).join("");
+        profileInitials.textContent = initials || "ST";
+        // Tajweed access = active + valid 30-day expiry.
+        let tajweedExpiry = null;
+        if (data.tajweedExpiryAt) {
+            tajweedExpiry = data.tajweedExpiryAt.toDate ? data.tajweedExpiryAt.toDate() : new Date(data.tajweedExpiryAt);
+        } else if (data.tajweedPurchasedAt) {
+            const purchasedAt = data.tajweedPurchasedAt.toDate ? data.tajweedPurchasedAt.toDate() : new Date(data.tajweedPurchasedAt);
+            if (!isNaN(purchasedAt.getTime())) {
+                tajweedExpiry = new Date(purchasedAt.getTime() + 30 * 24 * 60 * 60 * 1000);
             }
-        } else {
-            showNoLive();
         }
-
-        // IMPORTANT: Tajweed is checked ONLY by tajweedActive.
-        if (data.tajweedActive === true) {
-            unlock(
-                tajweedCard,
-                tajweedStatus,
-                "Tajweed Access Active",
-                "quran-course.html"
-            );
+        const tajweedActiveNow = data.tajweedActive === true && (!tajweedExpiry || tajweedExpiry.getTime() > Date.now());
+        if (tajweedActiveNow) {
+            const expiryText = tajweedExpiry ? " • Expires " + tajweedExpiry.toLocaleDateString("en-IN", {day:"2-digit",month:"short",year:"numeric"}) : "";
+            unlock(tajweedCard, tajweedStatus, "Tajweed Active" + expiryText, "quran-course.html");
         } else {
-            lock(
-                tajweedCard,
-                tajweedStatus,
-                "Tajweed Purchase Required"
-            );
+            lock(tajweedCard, tajweedStatus, tajweedExpiry ? "Tajweed Expired — Renew ₹299" : "Tajweed Purchase Required");
             tajweedCard.onclick = (e) => {
                 e.preventDefault();
-                window.location.href =
-                    "payment.html?course=tajweed&name=Tajweed&price=299";
+                window.location.href = "payment.html?course=tajweed&name=Tajweed&price=299";
             };
         }
-
-        // IMPORTANT: Arabic is checked ONLY by arabicLanguageActive.
-        if (data.arabicLanguageActive === true) {
-            unlock(
-                arabicCard,
-                arabicStatus,
-                "Arabic Language Access Active",
-                "arabic-language.html"
-            );
+        // Arabic access = active + valid 30-day expiry.
+        let arabicExpiry = null;
+        if (data.arabicExpiryAt) {
+            const rawExpiry = data.arabicExpiryAt;
+            if (typeof rawExpiry.toDate === "function") arabicExpiry = rawExpiry.toDate();
+            else if (rawExpiry.seconds) arabicExpiry = new Date(rawExpiry.seconds * 1000);
+            else {
+                const parsedExpiry = new Date(rawExpiry);
+                if (!isNaN(parsedExpiry.getTime())) arabicExpiry = parsedExpiry;
+            }
+        } else if (data.arabicLanguagePurchasedAt) {
+            const rawPurchase = data.arabicLanguagePurchasedAt;
+            let purchasedAt = null;
+            if (typeof rawPurchase.toDate === "function") purchasedAt = rawPurchase.toDate();
+            else if (rawPurchase.seconds) purchasedAt = new Date(rawPurchase.seconds * 1000);
+            else {
+                const parsedPurchase = new Date(rawPurchase);
+                if (!isNaN(parsedPurchase.getTime())) purchasedAt = parsedPurchase;
+            }
+            if (purchasedAt) arabicExpiry = new Date(purchasedAt.getTime() + 30 * 24 * 60 * 60 * 1000);
+        }
+        const arabicActiveNow = data.arabicLanguageActive === true && (!arabicExpiry || arabicExpiry.getTime() > Date.now());
+        if (arabicActiveNow) {
+            const expiryText = arabicExpiry ? " • Expires " + arabicExpiry.toLocaleDateString("en-IN", {day:"2-digit",month:"short",year:"numeric"}) : "";
+            unlock(arabicCard, arabicStatus, "Arabic Active" + expiryText, "arabic-language.html");
         } else {
-            lock(
-                arabicCard,
-                arabicStatus,
-                "Arabic Language Purchase Required"
-            );
+            lock(arabicCard, arabicStatus, arabicExpiry ? "Arabic Expired — Renew ₹299" : "Arabic Purchase Required");
             arabicCard.onclick = (e) => {
                 e.preventDefault();
-                window.location.href =
-                    "payment.html?course=arabic-language&name=Arabic%20Language&price=299";
+                window.location.href = "payment.html?course=arabic-language&name=Arabic%20Language&price=299";
             };
         }
-
     } catch (error) {
         console.error(error);
-
         tajweedStatus.textContent = "Unable to check Tajweed access.";
         arabicStatus.textContent = "Unable to check Arabic Language access.";
     }
 });
 </script>
-
 </body>
-
 </html>
