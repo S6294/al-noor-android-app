@@ -6,43 +6,95 @@
 <title>Login | Al Noor Islamic Academy</title>
 
 <style>
+
 *{margin:0;padding:0;box-sizing:border-box}
+:root{
+ --gold:#e8cb78;--gold-deep:#d4af37;--ink:#04120d;
+ --green:#0b2a20;--green2:#123d2d;--muted:#b8c9c0;
+ --line:rgba(232,203,120,.28)
+}
+html{min-height:100%;background:#04120d}
 body{
-    min-height:100vh;display:flex;justify-content:center;align-items:center;
-    padding:20px;font-family:Arial,sans-serif;background:#071a17;color:white;
+ min-height:100vh;display:flex;justify-content:center;align-items:center;
+ padding:24px 18px;font-family:Arial,sans-serif;color:#f8f7f0;
+ background:
+  radial-gradient(ellipse at 15% 8%,rgba(37,119,78,.27),transparent 34%),
+  radial-gradient(ellipse at 90% 85%,rgba(196,153,57,.12),transparent 32%),
+  linear-gradient(145deg,#030d09 0%,#071e15 52%,#0a2b1e 100%);
 }
 .login-box{
-    width:100%;max-width:400px;background:#0c2923;padding:35px 25px;
-    border-radius:20px;border:1px solid #36554d;
-    box-shadow:0 15px 40px rgba(0,0,0,.4);text-align:center;
+ width:100%;max-width:430px;position:relative;isolation:isolate;overflow:hidden;
+ padding:clamp(28px,6vw,42px) clamp(22px,6vw,36px);
+ border-radius:28px;border:1px solid rgba(232,203,120,.34);
+ background:linear-gradient(145deg,rgba(15,55,40,.97),rgba(6,29,20,.98));
+ box-shadow:0 28px 75px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.07);
+ text-align:center
+}
+.login-box:before{
+ content:"";position:absolute;z-index:-1;width:230px;height:230px;right:-105px;top:-125px;
+ border-radius:50%;background:radial-gradient(circle,rgba(232,203,120,.17),transparent 70%);
+ box-shadow:0 0 0 24px rgba(232,203,120,.025),0 0 0 50px rgba(232,203,120,.018)
+}
+.login-box:after{
+ content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:4px;
+ background:linear-gradient(90deg,#9b7423,#f6e4a0,#bd963b)
 }
 .logo{
-    width:75px;height:75px;margin:0 auto 18px;display:flex;
-    align-items:center;justify-content:center;border-radius:50%;
-    background:#d4af37;color:#071a17;font-size:24px;font-weight:bold;
+ width:78px;height:78px;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;
+ border-radius:24px;transform:rotate(-4deg);
+ background:linear-gradient(145deg,#ffedb0,#c69a38);color:#10251a;
+ border:1px solid rgba(255,244,199,.8);font-size:24px;font-weight:800;
+ box-shadow:0 0 0 7px rgba(212,175,55,.08),0 12px 28px rgba(0,0,0,.28)
 }
-h1{color:#d4af37;font-size:28px;margin-bottom:8px}
-.subtitle{color:#aaa;font-size:14px;margin-bottom:28px}
-.input-group{text-align:left;margin-bottom:18px}
-label{display:block;margin-bottom:7px;color:#ddd;font-size:14px}
+h1{
+ color:var(--gold);font-family:Georgia,"Times New Roman",serif;
+ font-size:clamp(27px,6vw,32px);letter-spacing:-.3px;margin-bottom:9px
+}
+.subtitle{color:#bdcec4;font-size:14px;line-height:1.65;margin-bottom:30px}
+.input-group{text-align:left;margin-bottom:19px}
+label{display:block;margin-bottom:9px;color:#e6e9e2;font-size:13px;font-weight:700;letter-spacing:.25px}
 input{
-    width:100%;padding:14px;border:1px solid #42635a;border-radius:10px;
-    background:#071a17;color:white;font-size:15px;outline:none;
+ width:100%;padding:15px 16px;border:1px solid rgba(175,205,188,.25);
+ border-radius:13px;background:rgba(3,19,13,.68);color:#fff;font-size:15px;
+ outline:none;transition:border-color .2s,box-shadow .2s,background .2s
 }
-input:focus{border-color:#d4af37}
+input::placeholder{color:#82978b}
+input:focus{
+ border-color:var(--gold);background:rgba(3,19,13,.9);
+ box-shadow:0 0 0 4px rgba(212,175,55,.11)
+}
 .login-button{
-    width:100%;padding:14px;margin-top:5px;border:none;border-radius:10px;
-    background:#d4af37;color:#071a17;font-size:16px;font-weight:bold;cursor:pointer;
+ width:100%;padding:15px;margin-top:7px;border:1px solid rgba(255,238,174,.65);
+ border-radius:13px;background:linear-gradient(135deg,#f1d987,#c69a35);
+ color:#102319;font-size:16px;font-weight:800;letter-spacing:.25px;cursor:pointer;
+ box-shadow:0 10px 24px rgba(0,0,0,.23);transition:transform .2s,filter .2s,box-shadow .2s
 }
-.login-button:disabled{opacity:.6}
+.login-button:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 14px 28px rgba(0,0,0,.3)}
+.login-button:active{transform:scale(.985)}
+.login-button:disabled{opacity:.6;cursor:wait;transform:none}
 .message{
-    display:none;margin-top:16px;padding:12px;border-radius:9px;
-    background:#183d31;color:#ddd;font-size:13px;line-height:1.5;
+ display:none;margin-top:17px;padding:13px 14px;border-radius:12px;
+ background:rgba(118,47,39,.25);border:1px solid rgba(235,133,112,.35);
+ color:#ffd5cb;font-size:13px;line-height:1.55;text-align:left
 }
-.forgot{display:block;margin-top:18px;color:#d4af37;text-decoration:none;font-size:14px}
-.signup{margin-top:25px;color:#aaa;font-size:14px}
-.signup a{color:#d4af37;text-decoration:none;font-weight:bold}
-.home{display:block;margin-top:20px;color:#aaa;text-decoration:none;font-size:13px}
+.forgot{display:block;margin-top:19px;color:var(--gold);text-decoration:none;font-size:13px}
+.forgot:hover{text-decoration:underline}
+.signup{margin-top:27px;color:#b4c3ba;font-size:14px;line-height:1.6}
+.signup a{color:var(--gold);text-decoration:none;font-weight:700}
+.signup a:hover{text-decoration:underline}
+.home{display:inline-block;margin-top:21px;color:#aabbb0;text-decoration:none;font-size:13px}
+.home:hover{color:var(--gold)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+@media(max-width:420px){
+ body{padding:18px 14px}
+ .login-box{border-radius:23px;padding:30px 21px}
+ .logo{width:70px;height:70px;border-radius:21px}
+ .subtitle{margin-bottom:25px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{transition:none!important}
+}
+
 </style>
 </head>
 
