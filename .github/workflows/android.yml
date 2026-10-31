@@ -4,9 +4,8 @@ name: Build Al Noor Android APK
 on:
   workflow_dispatch:
   push:
-    paths:
-      - "al-noor-android-app-starter.zip"
-      - ".github/workflows/android.yml"
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -32,29 +31,57 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: "platform-tools"
 
-      - name: Install Android SDK Packages
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Install Android SDK
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
 
-      - name: Extract Project
-        run: unzip -q al-noor-android-app-starter.zip
+      - name: Create Capacitor Project
+        run: |
+          mkdir -p www
+          cp *.html www/
+          cp firebase-messaging-sw.js www/ || true
 
-      - name: Install Dependencies
-        working-directory: al-noor-android-app
-        run: npm install
+          cat > package.json <<'EOF'
+          {
+            "name": "al-noor-android",
+            "version": "1.0.0",
+            "private": true
+          }
+          EOF
+
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "in.alnoorislamicacademy.app",
+            "appName": "Al Noor Islamic Academy",
+            "webDir": "www"
+          }
+          EOF
+
+          cat > www/manifest.json <<'EOF'
+          {
+            "name": "Al Noor Islamic Academy",
+            "short_name": "Al Noor Academy",
+            "start_url": "/",
+            "display": "standalone",
+            "background_color": "#071c16",
+            "theme_color": "#071c16"
+          }
+          EOF
+
+      - name: Install Capacitor
+        run: |
+          npm install @capacitor/core @capacitor/android
+          npm install -D @capacitor/cli
 
       - name: Add Android Platform
-        working-directory: al-noor-android-app
         run: npx cap add android
 
       - name: Sync Android
-        working-directory: al-noor-android-app
         run: npx cap sync android
 
       - name: Build APK
-        working-directory: al-noor-android-app/android
+        working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -63,4 +90,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Al-Noor-Android-APK
-          path: al-noor-android-app/android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
