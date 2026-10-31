@@ -101,3 +101,38 @@ jobs:
           name: Al-Noor-Android-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+                - name: Enable Android Back Navigation
+        run: |
+          mkdir -p android/app/src/main/java/in/alnoorislamicacademy/app
+
+          cat > android/app/src/main/java/in/alnoorislamicacademy/app/MainActivity.java <<'EOF'
+          package in.alnoorislamicacademy.app;
+
+          import android.os.Bundle;
+          import androidx.activity.OnBackPressedCallback;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  getOnBackPressedDispatcher().addCallback(
+                      this,
+                      new OnBackPressedCallback(true) {
+                          @Override
+                          public void handleOnBackPressed() {
+                              if (getBridge() != null &&
+                                  getBridge().getWebView() != null &&
+                                  getBridge().getWebView().canGoBack()) {
+                                  getBridge().getWebView().goBack();
+                              } else {
+                                  setEnabled(false);
+                                  getOnBackPressedDispatcher().onBackPressed();
+                              }
+                          }
+                      }
+                  );
+              }
+          }
+          EOF
