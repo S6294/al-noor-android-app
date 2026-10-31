@@ -1,4 +1,5 @@
-name: Build Al Noor Android APK
+
+name: Build Al Noor Android AAB
 
 on:
   workflow_dispatch:
@@ -127,15 +128,51 @@ jobs:
       - name: Sync web assets
         run: npx cap sync android
 
-      - name: Build debug APK
+      - name: Prepare signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "KEYSTORE_BASE64 secret is missing"
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/upload-keystore.jks
+
+      - name: Configure release signing
+        run: |
+          cat >> android/app/build.gradle <<'EOF'
+
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file("upload-keystore.jks")
+                      storePassword System.getenv("KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("KEY_ALIAS")
+                      keyPassword System.getenv("KEY_PASSWORD")
+                  }
+              }
+
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                  }
+              }
+          }
+          EOF
+
+      - name: Build signed Release AAB
         working-directory: android
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew bundleRelease
 
-      - name: Upload APK artifact
+      - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Al-Noor-Android-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Al-Noor-Android-AAB
+          path: android/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
