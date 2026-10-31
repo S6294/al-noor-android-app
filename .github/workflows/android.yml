@@ -41,9 +41,11 @@ jobs:
           cp ./*.html www/
           cp app-icon.png www/app-icon.png
           cp app-icon.png assets/icon.png
+
           if [ -f firebase-messaging-sw.js ]; then
             cp firebase-messaging-sw.js www/
           fi
+
           if [ -d images ]; then
             cp -R images www/
           fi
@@ -83,25 +85,7 @@ jobs:
       - name: Add Android platform
         run: npx cap add android
 
-      - name: Generate Android app icons
-        run: npx capacitor-assets generate --android --iconBackgroundColor '#071c16' --splashBackgroundColor '#071c16'
-
-      - name: Sync web assets
-        run: npx cap sync android
-
-      - name: Build debug APK
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Al-Noor-Android-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-                - name: Enable Android Back Navigation
+      - name: Enable Android Back Navigation
         run: |
           mkdir -p android/app/src/main/java/in/alnoorislamicacademy/app
 
@@ -136,3 +120,22 @@ jobs:
               }
           }
           EOF
+
+      - name: Generate Android app icons
+        run: npx capacitor-assets generate --android --iconBackgroundColor '#071c16' --splashBackgroundColor '#071c16'
+
+      - name: Sync web assets
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Al-Noor-Android-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
