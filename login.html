@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,6 @@
 <title>Login | Al Noor Islamic Academy</title>
 
 <style>
-
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
  --gold:#e8cb78;--gold-deep:#d4af37;--ink:#04120d;
@@ -94,7 +94,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 @media(prefers-reduced-motion:reduce){
  *,*:before,*:after{transition:none!important}
 }
-
 </style>
 </head>
 
@@ -141,6 +140,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
     </form>
 
+    <!-- Forgot Password -->
+    <a href="#" class="forgot" id="forgotPassword">
+        Forgot Password?
+    </a>
+
     <div id="message" class="message"></div>
 
     <div class="signup">
@@ -162,6 +166,7 @@ from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {
     getAuth,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail
 }
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
@@ -182,14 +187,16 @@ const loginForm = document.getElementById("loginForm");
 const loginButton = document.getElementById("loginButton");
 const message = document.getElementById("message");
 
-
-
 function showMessage(text) {
     message.style.display = "block";
+    message.style.background = "rgba(118,47,39,.25)";
+    message.style.borderColor = "rgba(235,133,112,.35)";
+    message.style.color = "#ffd5cb";
     message.textContent = text;
 }
 
 
+// Login System
 loginForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
@@ -255,7 +262,51 @@ loginForm.addEventListener("submit", async (e) => {
 });
 
 
+// Forgot Password System
+document.getElementById("forgotPassword").addEventListener("click", async (e) => {
 
+    e.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    if (!email) {
+        showMessage(
+            "Please enter your registered email address first."
+        );
+        document.getElementById("email").focus();
+        return;
+    }
+
+    try {
+
+        message.style.display = "none";
+
+        await sendPasswordResetEmail(auth, email);
+
+        message.style.display = "block";
+        message.style.background = "rgba(30,100,65,.25)";
+        message.style.borderColor = "rgba(100,210,140,.35)";
+        message.style.color = "#c9f7d9";
+
+        message.textContent =
+            "Password reset link has been sent to your email. Please check your inbox.";
+
+    } catch (error) {
+
+        console.error("Password Reset Error:", error);
+
+        if (error.code === "auth/invalid-email") {
+            showMessage("Please enter a valid email address.");
+        } else if (error.code === "auth/too-many-requests") {
+            showMessage("Too many requests. Please wait and try again later.");
+        } else {
+            showMessage(
+                "Unable to send reset email. Please check your email address and try again."
+            );
+        }
+    }
+});
 
 </script>
 
