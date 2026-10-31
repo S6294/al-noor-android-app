@@ -38,9 +38,10 @@ jobs:
 
       - name: Create Capacitor Project
         run: |
-          mkdir -p www
+          mkdir -p www assets
           cp *.html www/
           cp firebase-messaging-sw.js www/ || true
+          cp app-icon.png assets/icon.png
 
           cat > package.json <<'EOF'
           {
@@ -72,10 +73,14 @@ jobs:
       - name: Install Capacitor
         run: |
           npm install @capacitor/core @capacitor/android
-          npm install -D @capacitor/cli
+          npm install -D @capacitor/cli @capacitor/assets
 
       - name: Add Android Platform
         run: npx cap add android
+
+      - name: Generate App Icon
+        run: |
+          npx capacitor-assets generate --android --iconBackgroundColor '#071c16' --splashBackgroundColor '#071c16'
 
       - name: Sync Android
         run: npx cap sync android
